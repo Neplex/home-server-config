@@ -1,0 +1,95 @@
+version: "3.8"
+
+x-servarr: &config
+    environment:
+      - PUID=1000
+      - PGID=992
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - traefik
+    restart: unless-stopped
+
+services:
+  sonarr:
+    <<: *config
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr
+    volumes:
+      - /srv/pool/docker/sonarr:/config
+      - /srv/pool/plex/tvshows:/tv
+      - /srv/pool/vault/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.entrypoints=http"
+      - "traefik.http.services.sonarr.loadBalancer.server.port=8989"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.fridge`)"
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr
+    volumes:
+      - /srv/pool/docker/radarr:/config
+      - /srv/pool/plex/movies:/movies
+      - /srv/pool/vault/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.entrypoints=http"
+      - "traefik.http.services.radarr.loadBalancer.server.port=7878"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.fridge`)"
+
+  lidarr:
+    container_name: lidarr
+    image: lscr.io/linuxserver/lidarr
+    volumes:
+      - /srv/pool/docker/lidarr:/config
+      - /srv/pool/plex/musics:/musics
+      - /srv/pool/vault/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lidarr.entrypoints=http"
+      - "traefik.http.services.lidarr.loadBalancer.server.port=8686"
+      - "traefik.http.routers.lidarr.rule=Host(`lidarr.fridge`)"
+
+  readarr:
+    container_name: readarr
+    image: lscr.io/linuxserver/readarr
+    volumes:
+      - /srv/pool/docker/readarr:/config
+      - /srv/pool/plex/books:/books
+      - /srv/pool/vault/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.readarr.entrypoints=http"
+      - "traefik.http.services.readarr.loadBalancer.server.port=8787"
+      - "traefik.http.routers.readarr.rule=Host(`readarr.fridge`)"
+
+  bazarr:
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr
+    volumes:
+      - /srv/pool/docker/bazarr:/config
+      - /srv/pool/plex/tvshows:/tv
+      - /srv/pool/plex/movies:/movies
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.entrypoints=http"
+      - "traefik.http.services.bazarr.loadBalancer.server.port=6767"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.fridge`)"
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr
+    volumes:
+      - /srv/pool/docker/prowlarr:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prowlarr.entrypoints=http"
+      - "traefik.http.services.prowlarr.loadBalancer.server.port=9696"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge`)"
+
+networks:
+  traefik:
+    name: traefik
+    external: true
