@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/srv/pool/docker/transmission:/config"
+      - "/srv/pool/vault/downloads:/downloads"
+      - "/srv/pool/vault/downloads/torrents:/watch"
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
