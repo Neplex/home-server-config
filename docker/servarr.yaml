@@ -54,7 +54,7 @@ services:
 
   readarr:
     container_name: readarr
-    image: lscr.io/linuxserver/readarr
+    image: lscr.io/linuxserver/readarr:nightly
     volumes:
       - /srv/pool/docker/readarr:/config
       - /srv/pool/plex/books:/books
@@ -88,6 +88,17 @@ services:
       - "traefik.http.routers.prowlarr.entrypoints=http"
       - "traefik.http.services.prowlarr.loadBalancer.server.port=9696"
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge`)"
+  
+  overseerr:
+    image: lscr.io/linuxserver/overseerr
+    container_name: overseerr
+    volumes:
+      - /srv/pool/docker/overseerr:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.overseerr.entrypoints=http"
+      - "traefik.http.services.overseerr.loadBalancer.server.port=5055"
+      - "traefik.http.routers.overseerr.rule=Host(`overseerr.fridge`)"
 
 networks:
   traefik:
