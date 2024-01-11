@@ -1,0 +1,91 @@
+################################################################
+# Static configuration
+################################################################
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/cloudflare.cert
+      keyFile: /etc/traefik/certs/cloudflare.key
+
+  options:
+    cloudflare:
+      sniStrict: true
+      minVersion: VersionTLS12
+      curvePreferences:
+        - x25519
+        - CurveP256
+        - CurveP384
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+      clientAuth:
+        caFiles:
+          - /etc/traefik/certs/cloudflare-mTLS-ca.crt
+        clientAuthType: RequireAndVerifyClientCert
+
+
+http:
+  routers:
+    api:
+      rule: "Host(`traefik.fridge`)"
+      service: api@internal
+      entrypoints:
+        - https
+
+    ping:
+      rule: "Host(`traefik.fridge`) && PathPrefix(`/ping`)"
+      service: ping@internal
+      entrypoints:
+        - https
+
+    prometheus:
+      rule: "Host(`traefik.fridge`) && PathPrefix(`/metrics`)"
+      service: prometheus@internal
+      entrypoints:
+        - https
+
+    omv:
+      rule: "Host(`fridge`)"
+      service: omv
+      entrypoints:
+        - https
+
+    portainer:
+      rule: "Host(`portainer.fridge`)"
+      service: portainer
+      entrypoints:
+        - http
+
+
+  middlewares:
+    local_network:
+      chain:
+        middlewares:
+          - local_ip_only
+
+    cloudflare:
+      chain:
+        middlewares: []
+
+    local_ip_only:
+      ipWhiteList:
+        sourceRange:
+          - "192.168.1.0/24"
+          - "127.0.0.1/32"
+          - "172.0.0.0/8"
+
+
+  services:
+    omv:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.2:8080"
+
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.2:9000"
