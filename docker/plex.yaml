@@ -27,6 +27,7 @@ services:
       - "traefik.http.routers.plex-local.entrypoints=http,https"
       - "traefik.http.routers.plex-local.rule=Host(`plex.fridge`)"
       - "traefik.http.routers.plex.entrypoints=plex"
+      - "traefik.http.routers.plex.rule=PathPrefix(`/`)"
 
 networks:
   traefik:

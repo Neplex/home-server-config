@@ -39,6 +39,11 @@ entryPoints:
             sans:
               - "*.bitbaker.fr"
 
+  plex:
+    address: ":32400"
+    http:
+      tls: {}
+
 
 ################################################################
 # Traefik logs configuration
