@@ -14,7 +14,6 @@ services:
       - /srv/pool/docker/plex:/config
       - /srv/pool/plex:/data
     ports:
-      - 32400:32400/tcp
       - 32410:32410/udp
       - 32412:32412/udp
       - 32413:32413/udp
@@ -24,9 +23,11 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.plex.entrypoints=http,https,plex"
       - "traefik.http.services.plex.loadBalancer.server.port=32400"
+      - "traefik.http.routers.plex.entrypoints=http,https"
       - "traefik.http.routers.plex.rule=Host(`plex.fridge`)"
+      - "traefik.http.routers.plex.entrypoints=plex"
+      - "traefik.http.routers.plex.rule=Host(`plex.bitbaker.fr`)"
 
 networks:
   traefik:
