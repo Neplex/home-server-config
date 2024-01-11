@@ -27,6 +27,7 @@ services:
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.fridge`)"
 
   radarr:
+    <<: *config
     container_name: radarr
     image: lscr.io/linuxserver/radarr
     volumes:
@@ -40,6 +41,7 @@ services:
       - "traefik.http.routers.radarr.rule=Host(`radarr.fridge`)"
 
   lidarr:
+    <<: *config
     container_name: lidarr
     image: lscr.io/linuxserver/lidarr
     volumes:
@@ -53,6 +55,7 @@ services:
       - "traefik.http.routers.lidarr.rule=Host(`lidarr.fridge`)"
 
   readarr:
+    <<: *config
     container_name: readarr
     image: lscr.io/linuxserver/readarr:nightly
     volumes:
@@ -66,6 +69,7 @@ services:
       - "traefik.http.routers.readarr.rule=Host(`readarr.fridge`)"
 
   bazarr:
+    <<: *config
     container_name: bazarr
     image: lscr.io/linuxserver/bazarr
     volumes:
@@ -79,6 +83,7 @@ services:
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.fridge`)"
 
   prowlarr:
+    <<: *config
     container_name: prowlarr
     image: lscr.io/linuxserver/prowlarr
     volumes:
@@ -90,6 +95,7 @@ services:
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge`)"
   
   overseerr:
+    <<: *config
     image: lscr.io/linuxserver/overseerr
     container_name: overseerr
     volumes:
