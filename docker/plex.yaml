@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.plex.entrypoints=http,web"
+      - "traefik.http.routers.plex.entrypoints=http,https,web"
       - "traefik.http.services.plex.loadBalancer.server.port=32400"
       - "traefik.http.routers.plex.rule=Host(`plex.fridge`)"
 
