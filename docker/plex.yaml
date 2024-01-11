@@ -24,8 +24,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.plex.loadBalancer.server.port=32400"
-      - "traefik.http.routers.plex.entrypoints=http,https"
-      - "traefik.http.routers.plex.rule=Host(`plex.fridge`)"
+      - "traefik.http.routers.plex-local.entrypoints=http,https"
+      - "traefik.http.routers.plex-local.rule=Host(`plex.fridge`)"
       - "traefik.http.routers.plex.entrypoints=plex"
       - "traefik.http.routers.plex.rule=Host(`plex.bitbaker.fr`)"
 
