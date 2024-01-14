@@ -7,10 +7,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "1000:1000"
       - "32400:32400"
     networks:
       - traefik
-      - cloudflare
+      # - cloudflare
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -23,6 +24,6 @@ networks:
     name: traefik
     external: false
 
-  cloudflare:
-    name: cloudflare
-    external: true
+  # cloudflare:
+  #   name: cloudflare
+  #   external: true
