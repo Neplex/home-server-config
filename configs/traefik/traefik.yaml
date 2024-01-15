@@ -30,6 +30,12 @@ entryPoints:
   web:
     address: ":1000"
     http:
+      tls:
+        certresolver: letsEncrypt
+
+  cloudflare:
+    address: ":2000"
+    http:
       middlewares:
         - cloudflare@file
       tls:
@@ -39,19 +45,12 @@ entryPoints:
             sans:
               - "*.bitbaker.fr"
 
-  plex:
-    address: ":32400"
-    http:
-      tls: {}
-
-
 ################################################################
 # Traefik logs configuration
 ################################################################
 
 log:
-  level: DEBUG
-
+  level: INFO
 
 ################################################################
 # Access logs configuration
@@ -101,3 +100,15 @@ metrics:
     addServicesLabels: true
     addEntryPointsLabels: true
     manualRouting: true
+
+################################################################
+# SSL certifiactes configuration
+################################################################
+
+certificatesResolvers:
+  letsEncrypt:
+    acme:
+      email: nicolashiot@hotmail.fr
+      storage: /etc/traefik/acme/acme.json
+      dnsChallenge:
+        provider: cloudflare

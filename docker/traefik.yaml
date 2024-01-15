@@ -17,6 +17,8 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/srv/pool/docker/traefik:/etc/traefik:ro"
+    environment:
+      CLOUDFLARE_DNS_API_TOKEN: $CLOUDFLARE_DNS_API_TOKEN
     restart: unless-stopped
 
 networks:

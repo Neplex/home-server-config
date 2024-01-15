@@ -18,7 +18,7 @@ services:
       - "traefik.http.services.searxng.loadBalancer.server.port=8080"
       - "traefik.http.routers.searxng-local.entrypoints=http,https"
       - "traefik.http.routers.searxng-local.rule=Host(`search.fridge`)"
-      - "traefik.http.routers.searxng.entrypoints=web"
+      - "traefik.http.routers.searxng.entrypoints=cloudflare"
       - "traefik.http.routers.searxng.rule=Host(`search.bitbaker.fr`)"
 
 networks:
