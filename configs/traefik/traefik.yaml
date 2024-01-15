@@ -27,14 +27,8 @@ entryPoints:
       middlewares:
         - local_network@file
 
-  web:
-    address: ":1000"
-    http:
-      tls:
-        certresolver: letsEncrypt
-
   cloudflare:
-    address: ":2000"
+    address: ":1000"
     http:
       middlewares:
         - cloudflare@file
@@ -100,15 +94,3 @@ metrics:
     addServicesLabels: true
     addEntryPointsLabels: true
     manualRouting: true
-
-################################################################
-# SSL certifiactes configuration
-################################################################
-
-certificatesResolvers:
-  letsEncrypt:
-    acme:
-      email: nicolashiot@hotmail.fr
-      storage: /etc/traefik/acme/acme.json
-      dnsChallenge:
-        provider: cloudflare
