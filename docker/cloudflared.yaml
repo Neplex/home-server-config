@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  cloudflared:  # aka Kitchen Sink
+    image: cloudflare/cloudflared
+    container_name: cloudflared
+    command: tunnel --no-autoupdate run --token $CLOUDFLARE_TOKEN
+    environment:
+      CLOUDFLARE_TOKEN: $CLOUDFLARE_TOKEN
+    networks:
+      - cloudflare
+    restart: unless-stopped
+
+networks:
+  cloudflare:
+    name: cloudflare
+    external: false
