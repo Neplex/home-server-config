@@ -8,7 +8,7 @@ services:
       - "80:80"
       - "443:443"
       - "1000:1000"
-      - "32400:32400"
+      - "2000:2000"
     networks:
       - traefik
       # - cloudflare
