@@ -8,9 +8,10 @@ services:
       - "80:80"
       - "443:443"
       - "1000:1000"
+      - "2000:2000"
     networks:
       - traefik
-      - cloudflare
+      # - cloudflare
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -25,6 +26,6 @@ networks:
     name: traefik
     external: false
 
-  cloudflare:
-    name: cloudflare
-    external: true
+  # cloudflare:
+  #   name: cloudflare
+  #   external: true
