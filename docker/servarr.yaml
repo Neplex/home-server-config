@@ -102,8 +102,8 @@ services:
       - /srv/pool/docker/overseerr:/config
     labels:
       - "traefik.enable=true"
+      - "traefik.http.services.overseerr.loadBalancer.server.port=5055"
       - "traefik.http.routers.overseerr-local.entrypoints=http,https"
-      - "traefik.http.services.overseerr-local.loadBalancer.server.port=5055"
       - "traefik.http.routers.overseerr-local.rule=Host(`overseerr.fridge`)"
       - "traefik.http.routers.overseerr.entrypoints=cloudflare"
       - "traefik.http.routers.overseerr.rule=Host(`overseerr.bitbaker.fr`)"
