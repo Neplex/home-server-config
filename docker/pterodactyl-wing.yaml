@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   wings:
-    image: ghcr.io/pterodactyl/wings:v1.11.8
+    image: ghcr.io/pterodactyl/wings:v1.6.4
     restart: always
+    networks:
+      - pterodactyl
+      - wings0
     ports:
-      - "5100:5100"
       - "2022:2022"
-      #- "443:443"
     tty: true
     environment:
       TZ: "UTC"
@@ -15,20 +16,34 @@ services:
       WINGS_GID: 988
       WINGS_USERNAME: pterodactyl
     volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-      - "/srv/pool/docker/pterodactyl-wing/config/:/etc/pterodactyl/"
-      - "/srv/pool/docker/pterodactyl-wing/log/:/var/log/pterodactyl/"
-      - "/srv/pool/game_servers/:/var/lib/pterodactyl/"
-      - "/srv/game_servers/:/srv/game_servers/"
       - "/tmp/pterodactyl/:/tmp/pterodactyl/"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      # you may need /srv/daemon-data if you are upgrading from an old daemon
-      #- "/srv/daemon-data/:/srv/daemon-data/"
-      # Required for ssl if you use let's encrypt. uncomment to use.
-      #- "/etc/letsencrypt/:/etc/letsencrypt/"
+      - "/srv/pool/docker/pterodactyl/wings/etc/:/etc/pterodactyl/"
+      - "/srv/pool/docker/pterodactyl/wings/logs:/var/log/pterodactyl/"
+      - "/srv/game_servers/:/srv/game_servers/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=443"
+      - "traefik.http.routers.pterodactyl-wing-local.entrypoints=http,https"
+      - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
+
 networks:
-  default:
+  pterodactyl:
+    external: true
+
+  traefik:
+    name: traefik
+    external: true
+  
+  wings0:
+    name: wings0
+    driver: bridge
     ipam:
       config:
-        - subnet: 10.2.0.0/16
+        - subnet: "172.21.0.0/16"
+    driver_opts:
+      com.docker.network.bridge.name: wings0

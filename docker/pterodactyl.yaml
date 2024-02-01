@@ -10,19 +10,14 @@ x-common:
   
   panel:
     &panel-environment
-    # This URL should be the URL that your reverse proxy routes to the panel server
-    APP_URL: "http://pterodactyl.fridge/"
+    APP_URL: "http://pterodactyl.fridge"
     # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
     APP_TIMEZONE: "UTC"
-    APP_SERVICE_AUTHOR: "noreply@example.com"
-    TRUSTED_PROXIES: "*" # Set this to your proxy IP
-    # Uncomment the line below and set to a non-empty value if you want to use Let's Encrypt
-    # to generate an SSL certificate for the Panel.
-    # LE_EMAIL: ""
-  
+    APP_SERVICE_AUTHOR: "admin@bitbaker.fr"
+
   mail:
     &mail-environment
-    MAIL_FROM: "noreply@example.com"
+    MAIL_FROM: "noreply@bitbaker.fr"
     MAIL_DRIVER: "smtp"
     MAIL_HOST: "mail"
     MAIL_PORT: "1025"
@@ -39,8 +34,10 @@ x-common:
 #
 services:
   database:
-    image: mariadb:10.5
-    restart: unless-stopped
+    image: library/mysql:8.0
+    restart: always
+    networks:
+      - local
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - "/srv/pool/docker/pterodactyl/database:/var/lib/mysql"
@@ -48,26 +45,29 @@ services:
       <<: *db-environment
       MYSQL_DATABASE: "panel"
       MYSQL_USER: "pterodactyl"
-  
+
   cache:
     image: redis:alpine
-    restart: unless-stopped
-  
+    restart: always
+    networks:
+      - local
+
   panel:
-    image: ghcr.io/pterodactyl/panel:latest
+    image: ghcr.io/pterodactyl/panel:v1.9.1
+    restart: always
+    networks:
+      - pterodactyl
+      - local
+      - traefik
     links:
       - database
       - cache
-    ports:
-      - 5000:80
     volumes:
-      - "/srv/pool/docker/pterodactyl/var/:/app/var/"
-      - "/srv/pool/docker/pterodactyl/nginx/:/etc/nginx/http.d/"
-      - "/srv/pool/docker/pterodactyl/certs/:/etc/letsencrypt/"
-      - "/srv/pool/docker/pterodactyl/logs/:/app/storage/logs"
-    networks:
-      - default
-      - traefik
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/srv/pool/docker/pterodactyl/panel/var/:/app/var/"
+      - "/srv/pool/docker/pterodactyl/panel/logs/:/app/storage/logs"
+      - "/srv/pool/docker/pterodactyl/panel/nginx/:/etc/nginx/conf.d/"
     environment:
       <<: [*panel-environment, *mail-environment]
       DB_PASSWORD: *db-password
@@ -78,7 +78,7 @@ services:
       QUEUE_DRIVER: "redis"
       REDIS_HOST: "cache"
       DB_HOST: "database"
-      DB_PORT: "3306"
+      TRUSTED_PROXIES: "*"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.pterodactyl.loadBalancer.server.port=80"
@@ -86,14 +86,19 @@ services:
       - "traefik.http.routers.pterodactyl-local.rule=Host(`pterodactyl.fridge`)"
       - "traefik.http.routers.pterodactyl.entrypoints=cloudflare"
       - "traefik.http.routers.pterodactyl.rule=Host(`pterodactyl.bitbaker.fr`)"
-    restart: unless-stopped
 
 networks:
-  default:
-    ipam:
-      config:
-        - subnet: 10.1.0.0/16
+  local:
+    external: false
+
+  pterodactyl:
+    external: true
 
   traefik:
     name: traefik
     external: true
+
+  default:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
