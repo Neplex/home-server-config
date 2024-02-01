@@ -5,7 +5,7 @@ services:
     image: ghcr.io/pterodactyl/wings:v1.6.4
     restart: always
     networks:
-      - pterodactyl
+      - traefik
       - wings0
     ports:
       - "2022:2022"
@@ -32,9 +32,6 @@ services:
       - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
 
 networks:
-  pterodactyl:
-    external: true
-
   traefik:
     name: traefik
     external: true

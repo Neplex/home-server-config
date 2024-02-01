@@ -56,7 +56,6 @@ services:
     image: ghcr.io/pterodactyl/panel:v1.9.1
     restart: always
     networks:
-      - pterodactyl
       - local
       - traefik
     links:
@@ -90,9 +89,6 @@ services:
 networks:
   local:
     external: false
-
-  pterodactyl:
-    external: true
 
   traefik:
     name: traefik
