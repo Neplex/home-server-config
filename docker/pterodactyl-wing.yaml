@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  wings:
+    image: ghcr.io/pterodactyl/wings:v1.11.8
+    restart: always
+    ports:
+      - "5100:5100"
+      - "2022:2022"
+      #- "443:443"
+    tty: true
+    environment:
+      TZ: "UTC"
+      WINGS_UID: 988
+      WINGS_GID: 988
+      WINGS_USERNAME: pterodactyl
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker/containers/:/var/lib/docker/containers/"
+      - "/srv/pool/docker/pterodactyl-wing/config/:/etc/pterodactyl/"
+      - "/srv/pool/docker/pterodactyl-wing/log/:/var/log/pterodactyl/"
+      - "/srv/pool/game_servers/:/var/lib/pterodactyl/"
+      - "/srv/game_servers/:/srv/game_servers/"
+      - "/tmp/pterodactyl/:/tmp/pterodactyl/"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      # you may need /srv/daemon-data if you are upgrading from an old daemon
+      #- "/srv/daemon-data/:/srv/daemon-data/"
+      # Required for ssl if you use let's encrypt. uncomment to use.
+      #- "/etc/letsencrypt/:/etc/letsencrypt/"
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.2.0.0/16
