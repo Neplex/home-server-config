@@ -25,6 +25,8 @@ services:
     image: ghcr.io/pterodactyl/panel:v1.11.3
     restart: always
     environment:
+      PUID: 1000
+      PGID: 992
       APP_KEY : ${APP_KEY}
       APP_ENV: "production"
       APP_URL: "http:/pterodactyl.fridge"
