@@ -68,8 +68,6 @@ services:
       - "traefik.http.routers.pterodactyl.rule=Host(`pterodactyl.bitbaker.fr`)"
   
   wings:
-    container_name: wings
-    hostname: wings
     image: ghcr.io/pterodactyl/wings:v1.11.5
     restart: always
     stdin_open: true
