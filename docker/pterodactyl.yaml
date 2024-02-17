@@ -12,8 +12,8 @@ services:
     environment:
       MYSQL_DATABASE: "panel"
       MYSQL_USER: "pterodactyl"
-      MYSQL_PASSWORD: &db-password "uSqYabWEHUg5iE8Di4FmeDkQxXxDcGqtBpW9G3kLCR6ek7j2aTLmGvHrGmQJzrYJqp5JuJv4QG5WJTz7"
-      MYSQL_ROOT_PASSWORD: "yyfoi6uWpSfYMZwNnQk3PSFBwx5F8CnoecMQBv2ThanNgHARdb7juh898wQZJnLivkMqbxFFAaHz9mxo"
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
 
   cache:
     image: redis:alpine
@@ -25,16 +25,17 @@ services:
     image: ghcr.io/pterodactyl/panel:v1.11.3
     restart: always
     environment:
+      APP_KEY : ${APP_KEY}
       APP_ENV: "production"
-      APP_ENVIRONMENT_ONLY: "false"
       APP_URL: "http:/pterodactyl.fridge"
+      APP_ENVIRONMENT_ONLY: "false"
       APP_SERVICE_AUTHOR: "admin@bitbaker.fr"
       TRUSTED_PROXIES: "*"
       PTERODACTYL_TELEMETRY_ENABLED: "false"
       DB_HOST: "database"
       DB_PORT: "3306 "
       DB_USERNAME: "pterodactyl"
-      DB_PASSWORD: *db-password
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: "panel"
       CACHE_DRIVER: "redis"
       SESSION_DRIVER: "redis"
