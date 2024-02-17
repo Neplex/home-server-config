@@ -1,37 +1,5 @@
 version: '3.8'
 
-x-common:
-  database:
-    &db-environment
-    # Do not remove the "&db-password" from the end of the line below, it is important
-    # for Panel functionality.
-    MYSQL_PASSWORD: &db-password "uSqYabWEHUg5iE8Di4FmeDkQxXxDcGqtBpW9G3kLCR6ek7j2aTLmGvHrGmQJzrYJqp5JuJv4QG5WJTz7"
-    MYSQL_ROOT_PASSWORD: "yyfoi6uWpSfYMZwNnQk3PSFBwx5F8CnoecMQBv2ThanNgHARdb7juh898wQZJnLivkMqbxFFAaHz9mxo"
-  
-  panel:
-    &panel-environment
-    APP_URL: "http://pterodactyl.fridge"
-    # A list of valid timezones can be found here: http://php.net/manual/en/timezones.php
-    APP_TIMEZONE: "UTC"
-    APP_SERVICE_AUTHOR: "admin@bitbaker.fr"
-
-  mail:
-    &mail-environment
-    MAIL_FROM: "noreply@bitbaker.fr"
-    MAIL_DRIVER: "smtp"
-    MAIL_HOST: "mail"
-    MAIL_PORT: "1025"
-    MAIL_USERNAME: ""
-    MAIL_PASSWORD: ""
-    MAIL_ENCRYPTION: "true"
-
-#
-# ------------------------------------------------------------------------------------------
-# DANGER ZONE BELOW
-#
-# The remainder of this file likely does not need to be changed. Please only make modifications
-# below if you understand what you are doing.
-#
 services:
   database:
     image: library/mysql:8.0
@@ -42,9 +10,10 @@ services:
     volumes:
       - "/srv/pool/docker/pterodactyl/database:/var/lib/mysql"
     environment:
-      <<: *db-environment
       MYSQL_DATABASE: "panel"
       MYSQL_USER: "pterodactyl"
+      MYSQL_PASSWORD: &db-password "uSqYabWEHUg5iE8Di4FmeDkQxXxDcGqtBpW9G3kLCR6ek7j2aTLmGvHrGmQJzrYJqp5JuJv4QG5WJTz7"
+      MYSQL_ROOT_PASSWORD: "yyfoi6uWpSfYMZwNnQk3PSFBwx5F8CnoecMQBv2ThanNgHARdb7juh898wQZJnLivkMqbxFFAaHz9mxo"
 
   cache:
     image: redis:alpine
@@ -53,31 +22,43 @@ services:
       - local
 
   panel:
-    image: ghcr.io/pterodactyl/panel:v1.9.1
+    image: ghcr.io/pterodactyl/panel:v1.11.3
     restart: always
-    networks:
-      - local
-      - traefik
-    links:
-      - database
-      - cache
-    volumes:
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/srv/pool/docker/pterodactyl/panel/var/:/app/var/"
-      - "/srv/pool/docker/pterodactyl/panel/logs/:/app/storage/logs"
-      - "/srv/pool/docker/pterodactyl/panel/nginx/:/etc/nginx/conf.d/"
     environment:
-      <<: [*panel-environment, *mail-environment]
-      DB_PASSWORD: *db-password
       APP_ENV: "production"
       APP_ENVIRONMENT_ONLY: "false"
+      APP_URL: "http:/pterodactyl.fridge"
+      APP_SERVICE_AUTHOR: "admin@bitbaker.fr"
+      TRUSTED_PROXIES: "*"
+      PTERODACTYL_TELEMETRY_ENABLED: "false"
+      DB_HOST: "database"
+      DB_PORT: "3306 "
+      DB_USERNAME: "pterodactyl"
+      DB_PASSWORD: *db-password
+      DB_DATABASE: "panel"
       CACHE_DRIVER: "redis"
       SESSION_DRIVER: "redis"
       QUEUE_DRIVER: "redis"
-      REDIS_HOST: "cache"
-      DB_HOST: "database"
-      TRUSTED_PROXIES: "*"
+      REDIS_HOST: "redis"
+      MAIL_FROM: "noreply@bitbaker.fr"
+      MAIL_DRIVER: "smtp"
+      MAIL_HOST: "mail"
+      MAIL_PORT: "1025"
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      MAIL_ENCRYPTION: "true"
+    networks:
+      - local
+      - traefik
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/srv/pool/docker/pterodactyl/panel/conf/certs:/etc/letsencrypt"
+      - "/srv/pool/docker/pterodactyl/panel/conf/nginx:/etc/nginx/http.d"
+      - "/srv/pool/docker/pterodactyl/panel/conf:/etc/pterodactyl"
+      - "/srv/pool/docker/pterodactyl/panel/logs/:/app/storage/logs"
+      - "/srv/pool/docker/pterodactyl/panel/logs/:/var/log/panel/logs"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.pterodactyl.loadBalancer.server.port=80"
@@ -85,16 +66,59 @@ services:
       - "traefik.http.routers.pterodactyl-local.rule=Host(`pterodactyl.fridge`)"
       - "traefik.http.routers.pterodactyl.entrypoints=cloudflare"
       - "traefik.http.routers.pterodactyl.rule=Host(`pterodactyl.bitbaker.fr`)"
+  
+  wings:
+    container_name: wings
+    hostname: wings
+    image: ghcr.io/pterodactyl/wings:v1.11.5
+    restart: always
+    stdin_open: true
+    tty: true
+    networks:
+      - traefik
+      - wings0
+    ports:
+      - "8181:8080"
+      - "2022:2022"
+      - "7001:7001"
+      - "7002:7002"
+      - "7003:7003"
+      - "7004:7004"
+      - "7005:7005"
+    expose:
+      - "2022"
+    environment:
+      WINGS_UID: 1000
+      WINGS_GID: 992
+      WINGS_USERNAME: pterodactyl
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/ssl/certs:/etc/ssl/certs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker/containers/:/var/lib/docker/containers/"
+      - "/srv/pool/docker/pterodactyl/wings/conf:/etc/pterodactyl"
+      - "/srv/pool/docker/pterodactyl/wings/logs:/var/log/pterodactyl"
+      - "/srv/game_servers/:/srv/game_servers/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=8080"
+      - "traefik.http.routers.pterodactyl-wing-local.entrypoints=http,https"
+      - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
 
 networks:
-  local:
-    external: false
-
   traefik:
     name: traefik
     external: true
-
-  default:
+  
+  local:
+    external: false
+  
+  wings0:
+    name: wings0
+    driver: bridge
     ipam:
       config:
-        - subnet: 10.1.0.0/16
+        - subnet: "172.101.0.0/16"
+    driver_opts:
+      com.docker.network.bridge.name: wings0

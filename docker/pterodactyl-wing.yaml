@@ -9,11 +9,16 @@ services:
       - wings0
     ports:
       - "2022:2022"
+      - "7001:7001"
+      - "7002:7002"
+      - "7003:7003"
+      - "7004:7004"
+      - "7005:7005"
     tty: true
     environment:
       TZ: "UTC"
-      WINGS_UID: 988
-      WINGS_GID: 988
+      WINGS_UID: 1000
+      WINGS_GID: 992
       WINGS_USERNAME: pterodactyl
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
