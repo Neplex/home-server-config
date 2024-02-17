@@ -97,6 +97,7 @@ services:
       - "/srv/pool/docker/pterodactyl/wings/conf:/etc/pterodactyl"
       - "/srv/pool/docker/pterodactyl/wings/logs:/var/log/pterodactyl"
       - "/srv/game_servers/:/srv/game_servers/"
+      - "/tmp/pterodactyl:/tmp/pterodactyl"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
