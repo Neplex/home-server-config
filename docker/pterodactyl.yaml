@@ -22,7 +22,7 @@ services:
       - local
 
   panel:
-    image: ghcr.io/pterodactyl/panel:v1.11.3
+    image: ghcr.io/pterodactyl/panel:v1.11.7
     restart: always
     environment:
       PUID: 1000
@@ -72,7 +72,7 @@ services:
       - "traefik.http.routers.pterodactyl.rule=Host(`pterodactyl.bitbaker.fr`)"
   
   wings:
-    image: ghcr.io/pterodactyl/wings:v1.11.5
+    image: ghcr.io/pterodactyl/wings:v1.11.13
     restart: always
     stdin_open: true
     tty: true
