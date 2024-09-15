@@ -80,7 +80,6 @@ services:
       - traefik
       - wings0
     ports:
-      - "8181:8080"
       - "2022:2022"
     expose:
       - "2022"
@@ -101,7 +100,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
-      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=8080"
+      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=80"
       - "traefik.http.routers.pterodactyl-wing-local.entrypoints=http,https"
       - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
 
