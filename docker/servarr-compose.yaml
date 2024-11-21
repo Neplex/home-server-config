@@ -15,7 +15,7 @@ services:
   sonarr:
     <<: *config
     container_name: sonarr
-    image: lscr.io/linuxserver/sonarr
+    image: lscr.io/linuxserver/sonarr:4.0.10
     volumes:
       - /srv/pool/docker/sonarr:/config
       - /srv/pool/plex/tvshows:/tv
@@ -29,7 +29,7 @@ services:
   radarr:
     <<: *config
     container_name: radarr
-    image: lscr.io/linuxserver/radarr
+    image: lscr.io/linuxserver/radarr:5.15.1
     volumes:
       - /srv/pool/docker/radarr:/config
       - /srv/pool/plex/movies:/movies
@@ -43,7 +43,7 @@ services:
   lidarr:
     <<: *config
     container_name: lidarr
-    image: lscr.io/linuxserver/lidarr
+    image: lscr.io/linuxserver/lidarr:2.7.1
     volumes:
       - /srv/pool/docker/lidarr:/config
       - /srv/pool/plex/musics:/musics
@@ -57,7 +57,7 @@ services:
   readarr:
     <<: *config
     container_name: readarr
-    image: lscr.io/linuxserver/readarr:nightly
+    image: lscr.io/linuxserver/readarr:0.4.4-nightly
     volumes:
       - /srv/pool/docker/readarr:/config
       - /srv/pool/plex/books:/books
@@ -71,7 +71,7 @@ services:
   bazarr:
     <<: *config
     container_name: bazarr
-    image: lscr.io/linuxserver/bazarr
+    image: lscr.io/linuxserver/bazarr:1.4.5
     volumes:
       - /srv/pool/docker/bazarr:/config
       - /srv/pool/plex/tvshows:/tv
@@ -85,7 +85,7 @@ services:
   prowlarr:
     <<: *config
     container_name: prowlarr
-    image: lscr.io/linuxserver/prowlarr
+    image: lscr.io/linuxserver/prowlarr:1.26.1
     volumes:
       - /srv/pool/docker/prowlarr:/config
     labels:
@@ -96,7 +96,7 @@ services:
   
   overseerr:
     <<: *config
-    image: lscr.io/linuxserver/overseerr
+    image: lscr.io/linuxserver/overseerr:1.33.2
     container_name: overseerr
     volumes:
       - /srv/pool/docker/overseerr:/config

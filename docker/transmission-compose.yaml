@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   transmission:
-    image: lscr.io/linuxserver/transmission:latest
+    image: lscr.io/linuxserver/transmission:version-4.0.6-r0
     container_name: transmission
     environment:
       - PUID=1000
