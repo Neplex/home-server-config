@@ -77,14 +77,14 @@ http:
           - cloudflare_ip_only
 
     local_ip_only:
-      ipWhiteList:
+      ipAllowList:
         sourceRange:
           - "192.168.1.0/24"
           - "127.0.0.1/32"
           - "172.0.0.0/8"
 
     cloudflare_ip_only:
-      ipWhiteList:
+      ipAllowList:
         sourceRange:
           - 173.245.48.0/20
           - 103.21.244.0/22
