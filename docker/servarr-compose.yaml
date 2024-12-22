@@ -57,7 +57,7 @@ services:
   readarr:
     <<: *config
     container_name: readarr
-    image: lscr.io/linuxserver/readarr:0.4.6-nightly
+    image: lscr.io/linuxserver/readarr:0.4.7-nightly
     volumes:
       - /srv/pool/docker/readarr:/config
       - /srv/pool/plex/books:/books
