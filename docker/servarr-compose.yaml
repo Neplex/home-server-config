@@ -71,7 +71,7 @@ services:
   bazarr:
     <<: *config
     container_name: bazarr
-    image: lscr.io/linuxserver/bazarr:1.4.5
+    image: lscr.io/linuxserver/bazarr:1.5.0
     volumes:
       - /srv/pool/docker/bazarr:/config
       - /srv/pool/plex/tvshows:/tv
