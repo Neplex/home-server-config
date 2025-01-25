@@ -1,7 +1,6 @@
 version: "3.8"
 
 x-servarr: &config
-    user: "1000:992"
     environment:
       - PUID=1000
       - PGID=992
