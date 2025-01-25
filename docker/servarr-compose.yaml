@@ -61,6 +61,7 @@ services:
     volumes:
       - /srv/pool/docker/readarr:/config
       - /srv/pool/plex/books:/books
+      - /srv/pool/plex/audiobooks:/audiobooks
       - /srv/pool/vault/downloads:/downloads
     labels:
       - "traefik.enable=true"
