@@ -114,8 +114,6 @@ services:
       - /srv/pool/plex:/library
     devices:
       - /dev/dri:/dev/dri  # Intel Quick Sync access
-    environment:
-      - UNMANIC_ALLOW_UNRELEASED=false
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.unmanic.entrypoints=http,https"
