@@ -108,7 +108,7 @@ services:
   unmanic:
     <<: *config
     container_name: unmanic
-    image: josh5/unmanic:0.2.8
+    image: josh5/unmanic:0.2.7
     volumes:
       - /srv/pool/docker/unmanic:/config
       - /srv/pool/plex:/library
