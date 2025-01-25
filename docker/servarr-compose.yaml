@@ -105,10 +105,27 @@ services:
       - "traefik.http.services.solverr.loadBalancer.server.port=8191"
       - "traefik.http.routers.solverr.rule=Host(`solverr.fridge`)"
 
+  unmanic:
+    <<: *config
+    container_name: unmanic
+    image: josh5/unmanic:0.2.8
+    volumes:
+      - /srv/pool/docker/unmanic:/config
+      - /srv/pool/plex:/library
+    devices:
+      - /dev/dri:/dev/dri  # Intel Quick Sync access
+    environment:
+      - UNMANIC_ALLOW_UNRELEASED=false
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.unmanic.entrypoints=http,https"
+      - "traefik.http.services.unmanic.loadBalancer.server.port=8888"
+      - "traefik.http.routers.unmanic.rule=Host(`unmanic.fridge`)"
+
   overseerr:
     <<: *config
-    image: ghcr.io/linuxserver/overseerr:1.33.2
     container_name: overseerr
+    image: ghcr.io/linuxserver/overseerr:1.33.2
     volumes:
       - /srv/pool/docker/overseerr:/config
     labels:
