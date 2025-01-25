@@ -94,6 +94,16 @@ services:
       - "traefik.http.services.prowlarr.loadBalancer.server.port=9696"
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge`)"
 
+  flaresolverr:
+    <<: *config
+    container_name: solverr
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.solverr.entrypoints=http,https"
+      - "traefik.http.services.solverr.loadBalancer.server.port=8191"
+      - "traefik.http.routers.solverr.rule=Host(`solverr.fridge`)"
+
   overseerr:
     <<: *config
     image: ghcr.io/linuxserver/overseerr:1.33.2
