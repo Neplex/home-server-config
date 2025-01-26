@@ -57,7 +57,7 @@ services:
   readarr:
     <<: *config
     container_name: readarr
-    image: ghcr.io/linuxserver/readarr:0.4.9-develop
+    image: ghcr.io/linuxserver/readarr:0.4.10-develop
     volumes:
       - /srv/pool/docker/readarr:/config
       - /srv/pool/plex/books:/books
