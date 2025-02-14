@@ -29,7 +29,7 @@ services:
   radarr:
     <<: *config
     container_name: radarr
-    image: ghcr.io/linuxserver/radarr:5.17.2
+    image: ghcr.io/linuxserver/radarr:5.18.4
     volumes:
       - /srv/pool/docker/radarr:/config
       - /srv/pool/plex/movies:/movies
