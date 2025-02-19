@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  librespeed:
+    image: portainer/portainer-ce:2.21.5
+    container_name: portainer
+    environment:
+      - PUID=103
+      - PGID=996
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    networks:
+      - traefik
+    restart: always
+    ports:
+      - 9443:9443
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.portainer.loadBalancer.server.port=9443"
+      - "traefik.http.routers.portainer-local.entrypoints=http,https"
+      - "traefik.http.routers.portainer-local.rule=Host(`portainer.fridge`)"
+
+volumes:
+  portainer-data:
+
+networks:
+  traefik:
+    name: traefik
+    external: true
