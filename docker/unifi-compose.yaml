@@ -52,7 +52,7 @@ configs:
   init-mongo.sh:
     content: |
       #!/bin/bash
-      eval "$(envsubst <<< 'mongo --eval "db = db.getSiblingDB(\'${MONGO_DBNAME}\'); db.createUser({ user: \'${MONGO_USER}\', pwd: \'${MONGO_PASS}\', roles: [{ role: \'dbOwner\', db: \'${MONGO_DBNAME}\' }, { role: \'dbOwner\', db: \'${MONGO_DBNAME}_stat\' }] });"')"
+      eval "$(envsubst '${MONGO_DBNAME} ${MONGO_USER} ${MONGO_PASS}' <<< "mongo --eval \"db = db.getSiblingDB('admin'); db.createUser({ user: '${MONGO_USER}', pwd: '${MONGO_PASS}', roles: [{ role: 'dbOwner', db: '${MONGO_DBNAME}' }, { role: 'dbOwner', db: '${MONGO_DBNAME}_stat' }] });\"")"
 
 volumes:
   config:
