@@ -14,14 +14,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - config:/config
     environment:
-      - PUID=103
-      - PGID=996
-      - MONGO_USER=unifi
-      - MONGO_PASS=${MONGO_PASSWORD}
-      - MONGO_HOST=unifi-db
-      - MONGO_PORT=27017
-      - MONGO_DBNAME=unifi
-      - MONGO_AUTHSOURCE=admin
+      PUID: 103
+      PGID: 996
+      MONGO_USER: unifi
+      MONGO_PASS: ${MONGO_PASSWORD}
+      MONGO_HOST: unifi-db
+      MONGO_PORT: 27017
+      MONGO_DBNAME: unifi
+      MONGO_AUTHSOURCE: admin
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -30,19 +30,19 @@ services:
       - "traefik.http.routers.unifi-local.rule=Host(`unifi.fridge.local`)"
 
   db:
-    image: docker.io/mongo:8.0.4-noble
+    image: docker.io/mongo:3.6
     container_name: unifi-db
     networks:
       - default
     volumes:
       - data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_USER=unifi
-      - MONGO_PASS=${MONGO_PASSWORD}
-      - MONGO_DBNAME=unifi
-      - MONGO_AUTHSOURCE=admin
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_USER: unifi
+      MONGO_PASS: ${MONGO_PASSWORD}
+      MONGO_DBNAME: unifi
+      MONGO_AUTHSOURCE: admin
     configs:
       - source: init-mongo.sh
         target: /docker-entrypoint-initdb.d/init-mongo.sh
