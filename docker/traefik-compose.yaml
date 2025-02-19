@@ -17,7 +17,7 @@ services:
       - source: traefik
         target: /etc/traefik/traefik.yaml
       - source: static-config
-        target: /etc/traefikstatic_conf.yaml
+        target: /etc/traefik/static_conf.yaml
     restart: unless-stopped
 
 configs:
