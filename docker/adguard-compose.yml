@@ -9,7 +9,6 @@ services:
       - 53:53/udp
     networks:
       - traefik
-    network_mode: host
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
