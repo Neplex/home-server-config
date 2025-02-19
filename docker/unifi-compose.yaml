@@ -44,15 +44,14 @@ services:
       MONGO_DBNAME: unifi
       MONGO_AUTHSOURCE: admin
     configs:
-      - source: init-mongo.js
-        target: /docker-entrypoint-initdb.d/init-mongo.js
+      - source: init-mongo.sh
+        target: /docker-entrypoint-initdb.d/init-mongo.sh
     restart: unless-stopped
 
 configs:
-  init-mongo.js:
+  init-mongo.sh:
     content: |
-      db = db.getSiblingDB(process.env.MONGO_DBNAME);
-      db.createUser({ user: process.env.MONGO_USER, pwd: process.env.MONGO_PASS, roles: [{ role: 'dbOwner', db: process.env.MONGO_DBNAME }, { role: 'dbOwner', db: process.env.MONGO_DBNAME + '_stat' }] });
+      mongo --eval "db = db.getSiblingDB('${MONGO_DBNAME}'); db.createUser({ user: '${MONGO_USER}', pwd: '${MONGO_PASS}', roles: [{ role: 'dbOwner', db: '${MONGO_DBNAME}' }, { role: 'dbOwner', db: '${MONGO_DBNAME}_stat' }] });"
 
 volumes:
   config:
