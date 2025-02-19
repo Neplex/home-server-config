@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.unifi-local.rule=Host(`unifi.fridge.local`)"
 
   db:
-    image: docker.io/mongo:8.0.4-noble
+    image: docker.io/mongo:7.0.16-jammy
     container_name: unifi-db
     networks:
       - default
@@ -53,7 +53,12 @@ configs:
     content: |
       #!/bin/bash
 
-      mongosh <<EOF
+      if which mongosh > /dev/null 2>&1; then
+        mongo_init_bin='mongosh'
+      else
+        mongo_init_bin='mongo'
+      fi
+      "${mongo_init_bin}" <<EOF
       use ${MONGO_AUTHSOURCE}
       db.auth("${MONGO_INITDB_ROOT_USERNAME}", "${MONGO_INITDB_ROOT_PASSWORD}")
       db.createUser({
