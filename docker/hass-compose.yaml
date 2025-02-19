@@ -9,8 +9,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - config:/config
-    privileged: true
-    network_mode: host
+    networks:
+      - traefik
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -20,3 +20,8 @@ services:
 
 volumes:
   config:
+
+networks:
+  traefik:
+    name: traefik
+    external: true
