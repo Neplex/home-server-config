@@ -22,9 +22,9 @@ services:
 
 configs:
   traefik:
-    file: configs/traefik/traefik.yaml
+    file: ../configs/traefik/traefik.yaml
   static-config:
-    file: configs/traefik/static_conf.yaml
+    file: ../configs/traefik/static_conf.yaml
 
 networks:
   traefik:
