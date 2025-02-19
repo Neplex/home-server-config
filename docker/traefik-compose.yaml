@@ -14,8 +14,10 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     configs:
-      - traefik:/etc/traefik/traefik.yaml
-      - static-config:/etc/traefikstatic_conf.yaml
+      - source: traefik
+        target: /etc/traefik/traefik.yaml
+      - source: static-config
+        target: /etc/traefikstatic_conf.yaml
     restart: unless-stopped
 
 configs:
