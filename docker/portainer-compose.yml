@@ -11,20 +11,20 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-data:/data
+      - data:/data
     networks:
       - traefik
     restart: always
     ports:
-      - 9443:9443
+      - 9000:9000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.portainer.loadBalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadBalancer.server.port=9000"
       - "traefik.http.routers.portainer-local.entrypoints=http,https"
       - "traefik.http.routers.portainer-local.rule=Host(`portainer.fridge`)"
 
 volumes:
-  portainer-data:
+  data:
 
 networks:
   traefik:
