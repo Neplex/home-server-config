@@ -1,4 +1,5 @@
 services:
+  homeassistant:
     image: ghcr.io/linuxserver/homeassistant:2025.2.4
     container_name: homeassistant
     environment:
