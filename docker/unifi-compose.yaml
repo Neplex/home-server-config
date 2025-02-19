@@ -51,7 +51,8 @@ services:
 configs:
   init-mongo.sh:
     content: |
-      mongo --eval "db = db.getSiblingDB('${MONGO_DBNAME}'); db.createUser({ user: '${MONGO_USER}', pwd: '${MONGO_PASS}', roles: [{ role: 'dbOwner', db: '${MONGO_DBNAME}' }, { role: 'dbOwner', db: '${MONGO_DBNAME}_stat' }] });"
+      #!/bin/bash
+      eval "$(envsubst <<< 'mongo --eval "db = db.getSiblingDB(\'${MONGO_DBNAME}\'); db.createUser({ user: \'${MONGO_USER}\', pwd: \'${MONGO_PASS}\', roles: [{ role: \'dbOwner\', db: \'${MONGO_DBNAME}\' }, { role: \'dbOwner\', db: \'${MONGO_DBNAME}_stat\' }] });"')"
 
 volumes:
   config:
