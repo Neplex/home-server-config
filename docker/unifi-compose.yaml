@@ -14,14 +14,13 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - config:/config
     environment:
-      PUID: 103
-      PGID: 996
-      MONGO_USER: unifi
-      MONGO_PASS: ${MONGO_PASSWORD}
-      MONGO_HOST: unifi-db
-      MONGO_PORT: 27017
-      MONGO_DBNAME: unifi
-      MONGO_AUTHSOURCE: admin
+      - PUID=103
+      - PGID=996
+      - MONGO_USER=unifi
+      - MONGO_PASS=unifipwd
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DBNAME=unifi
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -30,50 +29,28 @@ services:
       - "traefik.http.routers.unifi-local.rule=Host(`unifi.fridge.local`)"
 
   db:
-    image: docker.io/mongo:7.0.16-jammy
+    image: docker.io/mongo:4.4.24
     container_name: unifi-db
     networks:
       - default
     volumes:
-      - data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_USER: unifi
-      MONGO_PASS: ${MONGO_PASSWORD}
-      MONGO_DBNAME: unifi
-      MONGO_AUTHSOURCE: admin
+      - db-data:/data/db
+      - db-config:/data/configdb
     configs:
-      - source: init-mongo.sh
-        target: /docker-entrypoint-initdb.d/init-mongo.sh
+      - source: init-mongo.js
+        target: /docker-entrypoint-initdb.d/init-mongo.js
     restart: unless-stopped
 
 configs:
-  init-mongo.sh:
+  init-mongo.js:
     content: |
-      #!/bin/bash
-
-      if which mongosh > /dev/null 2>&1; then
-        mongo_init_bin='mongosh'
-      else
-        mongo_init_bin='mongo'
-      fi
-      "${mongo_init_bin}" <<EOF
-      use ${MONGO_AUTHSOURCE}
-      db.auth("${MONGO_INITDB_ROOT_USERNAME}", "${MONGO_INITDB_ROOT_PASSWORD}")
-      db.createUser({
-        user: "${MONGO_USER}",
-        pwd: "${MONGO_PASS}",
-        roles: [
-          { db: "${MONGO_DBNAME}", role: "dbOwner" },
-          { db: "${MONGO_DBNAME}_stat", role: "dbOwner" }
-        ]
-      })
-      EOF
+      db.getSiblingDB("unifi").createUser({user: "unifi", pwd: "unifipwd", roles: [{role: "readWrite", db: "unifi"}]});
+      db.getSiblingDB("unifi_stat").createUser({user: "unifi", pwd: "unifipwd", roles: [{role: "readWrite", db: "unifi_stat"}]});
 
 volumes:
   config:
-  data:
+  db-config:
+  db-data:
 
 networks:
   default:
