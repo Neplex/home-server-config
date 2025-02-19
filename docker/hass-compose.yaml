@@ -1,0 +1,21 @@
+services:
+    image: ghcr.io/linuxserver/homeassistant:2025.2.4
+    container_name: homeassistant
+    environment:
+      - PUID=103
+      - PGID=996
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - config:/config
+    privileged: true
+    network_mode: host
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
+      - "traefik.http.routers.homeassistant-local.entrypoints=http,https"
+      - "traefik.http.routers.homeassistant-local.rule=Host(`hass.fridge.local`)"
+
+volumes:
+  config:
