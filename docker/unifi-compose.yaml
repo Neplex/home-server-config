@@ -17,7 +17,7 @@ services:
       - PUID=103
       - PGID=996
       - MONGO_USER=unifi
-      - MONGO_PASS=${MANGO_PASSWORD}
+      - MONGO_PASS=${MONGO_PASSWORD}
       - MONGO_HOST=unifi-db
       - MONGO_PORT=27017
       - MONGO_DBNAME=unifi
@@ -38,9 +38,9 @@ services:
       - data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=${MANGO_PASSWORD}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       - MONGO_USER=unifi
-      - MONGO_PASS=${MANGO_PASSWORD}
+      - MONGO_PASS=${MONGO_PASSWORD}
       - MONGO_DBNAME=unifi
       - MONGO_AUTHSOURCE=admin
     configs:
