@@ -1,18 +1,16 @@
-version: "3.8"
-
 services:
   librespeed:
     image: ghcr.io/linuxserver/librespeed:5.4.1
     container_name: librespeed
     environment:
-      - PUID=1000
-      - PGID=992
+      - PUID=103
+      - PGID=996
       - PASSWORD=${DB_PASSWORD}
       - IPINFO_APIKEY=${IPINFO_TOKEN}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - /srv/pool/docker/librespeed:/config
+      - config:/config
     networks:
       - traefik
     restart: unless-stopped
@@ -20,9 +18,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.librespeed.loadBalancer.server.port=80"
       - "traefik.http.routers.librespeed-local.entrypoints=http,https"
-      - "traefik.http.routers.librespeed-local.rule=Host(`speed.fridge`)"
+      - "traefik.http.routers.librespeed-local.rule=Host(`speed.fridge.local`)"
       - "traefik.http.routers.librespeed.entrypoints=cloudflare"
       - "traefik.http.routers.librespeed.rule=Host(`speed.bitbaker.fr`)"
+
+volumes:
+  config:
 
 networks:
   traefik:

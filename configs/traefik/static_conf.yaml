@@ -31,36 +31,22 @@ tls:
 http:
   routers:
     api:
-      rule: "Host(`traefik.fridge`)"
+      rule: "Host(`traefik.fridge.local`)"
       service: api@internal
       entrypoints:
         - http
         - https
 
     ping:
-      rule: "Host(`traefik.fridge`) && PathPrefix(`/ping`)"
+      rule: "Host(`traefik.fridge.local`) && PathPrefix(`/ping`)"
       service: ping@internal
       entrypoints:
         - http
         - https
 
     prometheus:
-      rule: "Host(`traefik.fridge`) && PathPrefix(`/metrics`)"
+      rule: "Host(`traefik.fridge.local`) && PathPrefix(`/metrics`)"
       service: prometheus@internal
-      entrypoints:
-        - http
-        - https
-
-    omv:
-      rule: "Host(`fridge`)"
-      service: omv
-      entrypoints:
-        - http
-        - https
-
-    portainer:
-      rule: "Host(`portainer.fridge`)"
-      service: portainer
       entrypoints:
         - http
         - https
@@ -108,14 +94,3 @@ http:
           - 2405:8100::/32
           - 2a06:98c0::/29
           - 2c0f:f248::/32
-
-  services:
-    omv:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.1.2:8080"
-
-    portainer:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.1.2:9000"

@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   traefik:
     image: traefik:v2.11.20
@@ -15,13 +13,21 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/srv/pool/docker/traefik:/etc/traefik:ro"
+    configs:
+      - traefik:/etc/traefik/traefik.yaml
+      - static-config:/etc/traefikstatic_conf.yaml
     restart: unless-stopped
+
+configs:
+  traefik:
+    file: ../configs/traefik/traefik.yaml
+  static-config:
+    file: ../configs/traefik/static_conf.yaml
 
 networks:
   traefik:
     name: traefik
-    external: false
+    external: true
 
   # cloudflare:
   #   name: cloudflare

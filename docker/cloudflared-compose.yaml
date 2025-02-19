@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   cloudflared:  # aka Kitchen Sink
     image: cloudflare/cloudflared:2025.2.0

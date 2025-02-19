@@ -83,7 +83,7 @@ providers:
     useBindPortIP: true
     exposedByDefault: false
 
-    defaultRule: Host(`{{ normalize .Name }}.fridge`)
+    defaultRule: Host(`{{ normalize .Name }}.fridge.local`)
 
 ################################################################
 # Metrics configuration

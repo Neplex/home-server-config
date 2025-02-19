@@ -1,17 +1,15 @@
-version: "3.8"
-
 services:
   plex:
     image: ghcr.io/linuxserver/jellyfin:10.10.6
     container_name: jellyfin
     environment:
-      - PUID=1000
-      - PGID=992
+      - PUID=103
+      - PGID=996
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - /srv/pool/docker/jellyfin:/config
-      - /srv/pool/plex:/data
+      - config:/config
+      - media:/data
     devices:
       - /dev/dri:/dev/dri
     networks:
@@ -21,7 +19,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.jellyfin.loadBalancer.server.port=8096"
       - "traefik.http.routers.jellyfin-local.entrypoints=http,https"
-      - "traefik.http.routers.jellyfin-local.rule=Host(`jellyfin.fridge`)"
+      - "traefik.http.routers.jellyfin-local.rule=Host(`jellyfin.fridge.local`)"
+
+volumes:
+  config:
+  media:
+    external: true
 
 networks:
   traefik:

@@ -1,19 +1,17 @@
-version: "3.8"
-
 services:
   plex:
     image: ghcr.io/linuxserver/plex:1.41.4
     container_name: plex
     environment:
-      - PUID=1000
-      - PGID=992
+      - PUID=103
+      - PGID=996
       - VERSION=docker
       - PLEX_CLAIM=${PLEX_CLAIM}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - /srv/pool/docker/plex:/config
-      - /srv/pool/plex:/data
+      - config:/config
+      - media:/data
     ports:
       - 32400:32400/tcp
       - 32410:32410/udp
@@ -28,6 +26,12 @@ services:
       - "traefik.http.services.plex.loadBalancer.server.port=32400"
       - "traefik.http.routers.plex-local.entrypoints=http,https"
       - "traefik.http.routers.plex-local.rule=Host(`plex.fridge`)"
+
+
+volumes:
+  config:
+  media:
+    external: true
 
 networks:
   traefik:
