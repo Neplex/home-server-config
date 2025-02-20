@@ -1,5 +1,5 @@
 services:
-  plex:
+  jellyfin:
     image: ghcr.io/linuxserver/jellyfin:10.10.6
     container_name: jellyfin
     environment:
