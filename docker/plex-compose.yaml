@@ -14,7 +14,7 @@ services:
       - freezer_media:/data
     devices:
       - /dev/dri:/dev/dri
-    ports:
+    # ports:
       # - 32410:32410/udp
       # - 32412:32412/udp
       # - 32413:32413/udp
