@@ -4,9 +4,6 @@ x-servarr: &config
     environment:
       - PUID=1000
       - PGID=992
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     networks:
       - traefik
     restart: unless-stopped
@@ -17,83 +14,91 @@ services:
     container_name: sonarr
     image: ghcr.io/linuxserver/sonarr:4.0.13
     volumes:
-      - /srv/pool/docker/sonarr:/config
-      - /srv/pool/plex/tvshows:/tv
-      - /srv/pool/vault/downloads:/downloads
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - sonarr_config:/config
+      - freezer_media:/media
+      - transmission_download:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.entrypoints=http,https"
       - "traefik.http.services.sonarr.loadBalancer.server.port=8989"
-      - "traefik.http.routers.sonarr.rule=Host(`sonarr.fridge`)"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.fridge.local`)"
 
   radarr:
     <<: *config
     container_name: radarr
     image: ghcr.io/linuxserver/radarr:5.18.4
     volumes:
-      - /srv/pool/docker/radarr:/config
-      - /srv/pool/plex/movies:/movies
-      - /srv/pool/vault/downloads:/downloads
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - radarr_config:/config
+      - freezer_media:/media
+      - transmission_download:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.entrypoints=http,https"
       - "traefik.http.services.radarr.loadBalancer.server.port=7878"
-      - "traefik.http.routers.radarr.rule=Host(`radarr.fridge`)"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.fridge.local`)"
 
   lidarr:
     <<: *config
     container_name: lidarr
     image: ghcr.io/linuxserver/lidarr:2.9.6
     volumes:
-      - /srv/pool/docker/lidarr:/config
-      - /srv/pool/plex/musics:/musics
-      - /srv/pool/vault/downloads:/downloads
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - lidarr_config:/config
+      - freezer_media:/media
+      - transmission_download:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.lidarr.entrypoints=http,https"
       - "traefik.http.services.lidarr.loadBalancer.server.port=8686"
-      - "traefik.http.routers.lidarr.rule=Host(`lidarr.fridge`)"
+      - "traefik.http.routers.lidarr.rule=Host(`lidarr.fridge.local`)"
 
   readarr:
     <<: *config
     container_name: readarr
     image: ghcr.io/linuxserver/readarr:0.4.10-develop
     volumes:
-      - /srv/pool/docker/readarr:/config
-      - /srv/pool/plex/books:/books
-      - /srv/pool/plex/audiobooks:/audiobooks
-      - /srv/pool/vault/downloads:/downloads
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - readarr_config:/config
+      - freezer_media:/media
+      - transmission_download:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.readarr.entrypoints=http,https"
       - "traefik.http.services.readarr.loadBalancer.server.port=8787"
-      - "traefik.http.routers.readarr.rule=Host(`readarr.fridge`)"
+      - "traefik.http.routers.readarr.rule=Host(`readarr.fridge.local`)"
 
   bazarr:
     <<: *config
     container_name: bazarr
     image: ghcr.io/linuxserver/bazarr:1.5.1
     volumes:
-      - /srv/pool/docker/bazarr:/config
-      - /srv/pool/plex/tvshows:/tv
-      - /srv/pool/plex/movies:/movies
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - bazarr_config:/config
+      - freezer_media:/media
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bazarr.entrypoints=http,https"
       - "traefik.http.services.bazarr.loadBalancer.server.port=6767"
-      - "traefik.http.routers.bazarr.rule=Host(`bazarr.fridge`)"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.fridge.local`)"
 
   prowlarr:
     <<: *config
     container_name: prowlarr
     image: ghcr.io/linuxserver/prowlarr:1.30.2
     volumes:
-      - /srv/pool/docker/prowlarr:/config
+      - prowlarr_config:/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prowlarr.entrypoints=http,https"
       - "traefik.http.services.prowlarr.loadBalancer.server.port=9696"
-      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge`)"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.fridge.local`)"
 
   flaresolverr:
     <<: *config
@@ -103,36 +108,34 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.solverr.entrypoints=http,https"
       - "traefik.http.services.solverr.loadBalancer.server.port=8191"
-      - "traefik.http.routers.solverr.rule=Host(`solverr.fridge`)"
-
-  unmanic:
-    <<: *config
-    container_name: unmanic
-    image: josh5/unmanic:0.2.8
-    volumes:
-      - /srv/pool/docker/unmanic:/config
-      - /srv/pool/plex:/library
-    devices:
-      - /dev/dri:/dev/dri  # Intel Quick Sync access
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.unmanic.entrypoints=http,https"
-      - "traefik.http.services.unmanic.loadBalancer.server.port=8888"
-      - "traefik.http.routers.unmanic.rule=Host(`unmanic.fridge`)"
+      - "traefik.http.routers.solverr.rule=Host(`solverr.fridge.local`)"
 
   overseerr:
     <<: *config
     container_name: overseerr
     image: ghcr.io/linuxserver/overseerr:1.33.2
     volumes:
-      - /srv/pool/docker/overseerr:/config
+      - overseerr_config:/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.overseerr.loadBalancer.server.port=5055"
       - "traefik.http.routers.overseerr-local.entrypoints=http,https"
-      - "traefik.http.routers.overseerr-local.rule=Host(`overseerr.fridge`)"
+      - "traefik.http.routers.overseerr-local.rule=Host(`overseerr.fridge.local`)"
       - "traefik.http.routers.overseerr.entrypoints=cloudflare"
       - "traefik.http.routers.overseerr.rule=Host(`overseerr.bitbaker.fr`)"
+
+volumes:
+  sonarr_config:
+  radarr_config:
+  lidarr_config:
+  readarr_config:
+  bazarr_config:
+  prowlarr_config:
+  overseerr_config:
+  freezer_media:
+    external: true
+  transmission_download:
+    external: true
 
 networks:
   traefik:
