@@ -2,8 +2,8 @@ version: "3.8"
 
 x-servarr: &config
     environment:
-      - PUID=1000
-      - PGID=992
+      - PUID=103
+      - PGID=996
     networks:
       - traefik
     restart: unless-stopped
