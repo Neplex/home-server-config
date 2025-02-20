@@ -1,0 +1,31 @@
+services:
+  nextcloud:
+    image: ghcr.io/linuxserver/nextcloud:30.0.6
+    container_name: nextcloud
+    environment:
+      - PUID=103
+      - PGID=996
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - config:/config
+      - freezer_vault:/data
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.nextcloud.loadBalancer.server.port=443"
+      - "traefik.http.routers.nextcloud-local.entrypoints=http,https"
+      - "traefik.http.routers.nextcloud-local.rule=Host(`nextcloud.fridge.local`)"
+
+
+volumes:
+  config:
+  freezer_vault:
+    external: true
+
+networks:
+  traefik:
+    name: traefik
+    external: true
