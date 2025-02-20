@@ -11,7 +11,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - config:/config
-      - media:/data
+      - freezer_media:/data
     ports:
       - 32400:32400/tcp
       - 32410:32410/udp
@@ -30,7 +30,7 @@ services:
 
 volumes:
   config:
-  media:
+  freezer_media:
     external: true
 
 networks:
