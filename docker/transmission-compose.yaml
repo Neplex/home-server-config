@@ -1,19 +1,17 @@
-version: "3.8"
-
 services:
   transmission:
     image: ghcr.io/linuxserver/transmission:4.0.6
     container_name: transmission
     environment:
-      - PUID=1000
-      - PGID=992
+      - PUID=103
+      - PGID=996
       - PEERPORT=51414
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - /srv/pool/docker/transmission:/config
-      - /srv/pool/vault/downloads:/downloads
-      - /srv/pool/vault/downloads/torrents:/watch
+      - config:/config
+      - download:/downloads
+      - watch/watch
     ports:
       - 51413:51413
       - 51413:51413/udp
@@ -26,7 +24,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.transmission.entrypoints=http,https"
       - "traefik.http.services.transmission.loadBalancer.server.port=9091"
-      - "traefik.http.routers.transmission.rule=Host(`transmission.fridge`)"
+      - "traefik.http.routers.transmission.rule=Host(`transmission.fridge.local`)"
+
+volumes:
+  config:
+  download:
+  watch:
 
 networks:
   traefik:
