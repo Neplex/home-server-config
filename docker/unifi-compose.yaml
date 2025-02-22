@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.unifi.loadBalancer.server.port=8443"
+      - "traefik.http.services.unifi.loadBalancer.server.port=8080"
       - "traefik.http.routers.unifi-local.entrypoints=http,https"
       - "traefik.http.routers.unifi-local.rule=Host(`unifi.fridge.local`)"
       # - "traefik.http.services.unifi-guest-portal.loadBalancer.server.port=8880"
