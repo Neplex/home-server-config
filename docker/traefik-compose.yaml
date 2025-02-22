@@ -60,7 +60,7 @@ configs:
                     - "*.bitbaker.fr"
 
       log:
-        level: INFO
+        level: DEBUG
 
       accessLog: {}
 
