@@ -43,7 +43,8 @@ services:
       - MONGO_PASS=${MONGO_PASS}
       - MONGO_DBNAME=${MONGO_DBNAME:-unifi}
     volumes:
-      - data:/data/db
+      - db-data:/data/db
+      - db-config:/data/configdb
     configs:
       - source: mongo-init-script.sh
         target: /docker-entrypoint-initdb.d/init-mongo.sh
@@ -71,8 +72,9 @@ configs:
       EOF
 
 volumes:
-  data:
   config:
+  db-config:
+  db-data:
 
 networks:
   default:
