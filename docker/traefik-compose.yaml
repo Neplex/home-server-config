@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v2.11.20
+    image: traefik:3.3.3
     container_name: "traefik"
     user: "103:996"
     cap_add:
@@ -15,7 +15,7 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      -  "cloudflare_certs:/etc/traefik/certs"
+      - "cloudflare_certs:/etc/traefik/certs:ro"
     configs:
       - source: traefik.yaml
         target: /etc/traefik/traefik.yaml
@@ -35,7 +35,7 @@ configs:
 
       entryPoints:
         http:
-          address: :80
+          address: ":80"
           http:
             middlewares:
               - local_network@file
@@ -49,6 +49,7 @@ configs:
 
         cloudflare:
           address: ":1000"
+          http3: {}
           http:
             middlewares:
               - cloudflare@file
@@ -80,7 +81,7 @@ configs:
           watch: true
           useBindPortIP: true
           exposedByDefault: false
-          defaultRule: Host(`{{ normalize .Name }}.fridge.local`)
+          defaultRule: "Host(`{{ normalize .Name }}.fridge.local`)"
 
       metrics:
         prometheus:
