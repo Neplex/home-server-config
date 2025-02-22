@@ -27,9 +27,9 @@ services:
       - "traefik.http.services.unifi.loadBalancer.server.port=8080"
       - "traefik.http.routers.unifi-local.entrypoints=http,https"
       - "traefik.http.routers.unifi-local.rule=Host(`unifi.fridge.local`)"
-      - "traefik.http.services.unifi-guest-portal.loadBalancer.server.port=8880"
-      - "traefik.http.routers.unifi-guest-portal-local.entrypoints=http,https"
-      - "traefik.http.routers.unifi-guest-portal-local.rule=Host(`unifi-guest.fridge.local`)"
+      # - "traefik.http.services.unifi-guest-portal.loadBalancer.server.port=8880"
+      # - "traefik.http.routers.unifi-guest-portal-local.entrypoints=http,https"
+      # - "traefik.http.routers.unifi-guest-portal-local.rule=Host(`unifi-guest.fridge.local`)"
 
   db:
     image: mongo:8.0.4-noble
