@@ -2,7 +2,7 @@ services:
   traefik:
     image: traefik:v2.11.20
     container_name: "traefik"
-    #user: "103:996"
+    user: "103:996"
     cap_add:
       - NET_BIND_SERVICE
     ports:
@@ -15,7 +15,7 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      -  "cloudflare_certs:/etc/traefik/certs:ro"
+      -  "cloudflare_certs:/etc/traefik/certs"
     configs:
       - source: traefik.yaml
         target: /etc/traefik/traefik.yaml
