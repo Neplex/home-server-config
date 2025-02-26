@@ -5,6 +5,10 @@ services:
     environment:
       - PUID=103
       - PGID=996
+      - MYSQL_HOST=mariadb
+      - MYSQL_DATABASE=${DB_NAME:-nextcloud}
+      - MYSQL_USER=${DB_USER:-nextcloud}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -12,6 +16,7 @@ services:
       - freezer_vault:/data
     networks:
       - traefik
+      - default
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -19,13 +24,30 @@ services:
       - "traefik.http.routers.nextcloud-local.entrypoints=http,https"
       - "traefik.http.routers.nextcloud-local.rule=Host(`nextcloud.fridge.local`)"
 
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb:11.4.5
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      - PUID=103
+      - PGID=996
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME:-nextcloud}
+      - MYSQL_USER=${DB_USER:-nextcloud}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - data:/config
+    networks:
+      - default
+    restart: unless-stopped
 
 volumes:
   config:
+  data:
   freezer_vault:
     external: true
 
 networks:
+  default:
   traefik:
     name: traefik
     external: true
