@@ -14,8 +14,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - config:/config
       - freezer_vault:/data
-    ports:
-      - "5000:433"
     networks:
       - traefik
       - default
