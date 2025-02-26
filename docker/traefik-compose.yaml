@@ -2,7 +2,7 @@ services:
   traefik:
     image: traefik:v3.3.4
     container_name: "traefik"
-    user: "103:996"
+    #user: "103:996"
     cap_add:
       - NET_BIND_SERVICE
     ports:
