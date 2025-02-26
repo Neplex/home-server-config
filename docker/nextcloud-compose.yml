@@ -15,7 +15,7 @@ services:
       - config:/config
       - freezer_vault:/data
     ports:
-      - "433:433"
+      - "5000:433"
     networks:
       - traefik
       - default
