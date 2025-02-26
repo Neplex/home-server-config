@@ -93,8 +93,8 @@ configs:
     content: |
       tls:
         certificates:
-          - certFile: /etc/traefik/certs/cloudflare.cert
-            keyFile: /etc/traefik/certs/cloudflare.key
+          - certFile: /etc/traefik/certs/bitbaker.com.pem
+            keyFile: /etc/traefik/certs/bitbaker.com.key
 
         options:
           cloudflare:
@@ -113,7 +113,7 @@ configs:
               - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
             clientAuth:
               caFiles:
-                - /etc/traefik/certs/cloudflare-mTLS-ca.crt
+                - /etc/traefik/certs/cloudflare-mTLS-ca.pem
               clientAuthType: RequireAndVerifyClientCert
 
       http:
