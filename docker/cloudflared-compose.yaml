@@ -1,6 +1,6 @@
 services:
   cloudflared:  # aka Kitchen Sink
-    image: cloudflare/cloudflared:2025.2.0
+    image: cloudflare/cloudflared:2025.2.1
     container_name: cloudflared
     command: tunnel --no-autoupdate run --token $CLOUDFLARE_TOKEN
     environment:
