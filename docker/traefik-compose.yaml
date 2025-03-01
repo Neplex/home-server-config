@@ -129,12 +129,12 @@ configs:
               - http
               - https
 
-          prometheus:
-            rule: "Host(`traefik.fridge.local`) && PathPrefix(`/metrics`)"
-            service: prometheus@internal
-            entrypoints:
-              - http
-              - https
+          # prometheus:
+          #   rule: "Host(`traefik.fridge.local`) && PathPrefix(`/metrics`)"
+          #   service: prometheus@internal
+          #   entrypoints:
+          #     - http
+          #     - https
 
         middlewares:
           local_network:
