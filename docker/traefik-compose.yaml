@@ -60,6 +60,9 @@ configs:
                   sans:
                     - "*.bitbaker.fr"
 
+      serversTransport:
+        insecureSkipVerify: true
+
       log:
         level: DEBUG
 
@@ -82,12 +85,6 @@ configs:
           useBindPortIP: true
           exposedByDefault: false
           defaultRule: "Host(`{{ normalize .Name }}.fridge.local`)"
-
-      metrics:
-        prometheus:
-          addServicesLabels: true
-          addEntryPointsLabels: true
-          manualRouting: true
 
   static_config.yaml:
     content: |
