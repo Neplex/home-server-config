@@ -21,6 +21,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.nextcloud.loadBalancer.server.port=443"
+      - "traefik.http.services.nextcloud.loadbalancer.server.scheme=https"
       - "traefik.http.routers.nextcloud-local.entrypoints=http,https"
       - "traefik.http.routers.nextcloud-local.rule=Host(`nextcloud.fridge.local`)"
 
