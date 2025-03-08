@@ -150,6 +150,7 @@ configs:
             chain:
               middlewares:
                 - cloudflare-proxy
+                - ratelimit
                 - forwarded-host-header
 
           local_ip_only:
@@ -169,6 +170,11 @@ configs:
             plugin:
               cloudflare:
                 overwriteRequestHeader: true
+
+          ratelimit:
+            rateLimit:
+              average: 10
+              burst: 50
 
 networks:
   traefik:
