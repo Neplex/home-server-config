@@ -178,8 +178,8 @@ configs:
 
           rate-limit:
             rateLimit:
-              average: 10
-              burst: 50
+              average: 100
+              burst: 200
 
 networks:
   traefik:
