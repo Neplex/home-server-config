@@ -93,7 +93,7 @@ configs:
         plugins:
           cloudflare:
             moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
-            version: v1.0.0
+            version: v1.2.0
 
       tracing:
         serviceName: traefik
