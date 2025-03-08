@@ -34,7 +34,6 @@ configs:
         sendAnonymousUsage: false
 
       experimental:
-        enabled: true
         plugins:
           cloudflare:
             moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
