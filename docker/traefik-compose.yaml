@@ -95,6 +95,7 @@ configs:
           useBindPortIP: true
           exposedByDefault: false
           defaultRule: "Host(`{{ normalize .Name }}.fridge.local`)"
+          network: traefik
 
   static_config.yaml:
     content: |
