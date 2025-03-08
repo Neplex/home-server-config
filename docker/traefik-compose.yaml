@@ -88,6 +88,15 @@ configs:
 
   static_config.yaml:
     content: |
+      experimental:
+        plugins:
+          cloudflaregate:
+            moduleName: github.com/sstoner/cloudflaregate
+            version: v1.1.1
+          cloudflarewarp:
+            modulename: github.com/BetterCorp/cloudflarewarp
+            version: v1.3.0
+    
       tls:
         certificates:
           - certFile: /etc/traefik/certs/bitbaker.com.pem
@@ -129,12 +138,8 @@ configs:
               - http
               - https
 
-          # prometheus:
-          #   rule: "Host(`traefik.fridge.local`) && PathPrefix(`/metrics`)"
-          #   service: prometheus@internal
-          #   entrypoints:
-          #     - http
-          #     - https
+          tracing:
+            serviceName: traefik
 
         middlewares:
           local_network:
@@ -145,7 +150,8 @@ configs:
           cloudflare:
             chain:
               middlewares:
-                - cloudflare_ip_only
+                - cloudflare-gate
+                - cloudflare-warp
 
           local_ip_only:
             ipAllowList:
@@ -154,31 +160,15 @@ configs:
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
 
-          cloudflare_ip_only:
-            ipAllowList:
-              sourceRange:
-                - 173.245.48.0/20
-                - 103.21.244.0/22
-                - 103.22.200.0/22
-                - 103.31.4.0/22
-                - 141.101.64.0/18
-                - 108.162.192.0/18
-                - 190.93.240.0/20
-                - 188.114.96.0/20
-                - 197.234.240.0/22
-                - 198.41.128.0/17
-                - 162.158.0.0/15
-                - 104.16.0.0/13
-                - 104.24.0.0/14
-                - 172.64.0.0/13
-                - 131.0.72.0/22
-                - 2400:cb00::/32
-                - 2606:4700::/32
-                - 2803:f800::/32
-                - 2405:b500::/32
-                - 2405:8100::/32
-                - 2a06:98c0::/29
-                - 2c0f:f248::/32
+          cloudflare-gate:
+            plugin:
+              cloudflaregate:
+                refreshInterval: "24h"
+
+          cloudflare-warp:
+            plugin:
+              cloudflarewarp:
+                disableDefault: false
 
 networks:
   traefik:
