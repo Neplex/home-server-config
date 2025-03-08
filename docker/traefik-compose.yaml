@@ -33,6 +33,13 @@ configs:
       global:
         sendAnonymousUsage: false
 
+      experimental:
+        enabled: true
+        plugins:
+          cloudflare:
+            moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
+            version: v1.2.0
+
       entryPoints:
         http:
           address: ":80"
@@ -75,6 +82,10 @@ configs:
       ping:
         manualRouting: true
 
+      tracing:
+        serviceName: traefik
+        otlp: {}
+
       providers:
         file:
           filename: "/etc/traefik/static_config.yaml"
@@ -88,17 +99,6 @@ configs:
 
   static_config.yaml:
     content: |
-      experimental:
-        enabled: true
-        plugins:
-          cloudflare:
-            moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
-            version: v1.2.0
-
-      tracing:
-        serviceName: traefik
-        otlp: {}
-
       tls:
         certificates:
           - certFile: /etc/traefik/certs/bitbaker.com.pem
