@@ -90,13 +90,10 @@ configs:
     content: |
       experimental:
         plugins:
-          cloudflaregate:
-            moduleName: github.com/sstoner/cloudflaregate
-            version: v1.1.1
-          cloudflarewarp:
-            modulename: github.com/BetterCorp/cloudflarewarp
-            version: v1.3.0
-    
+          cloudflare:
+            moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
+            version: v1.0.0
+
       tls:
         certificates:
           - certFile: /etc/traefik/certs/bitbaker.com.pem
@@ -150,8 +147,7 @@ configs:
           cloudflare:
             chain:
               middlewares:
-                - cloudflare-gate
-                - cloudflare-warp
+                - cloudflare
 
           local_ip_only:
             ipAllowList:
@@ -160,15 +156,10 @@ configs:
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
 
-          cloudflare-gate:
+          cloudflare:
             plugin:
-              cloudflaregate:
-                refreshInterval: "24h"
-
-          cloudflare-warp:
-            plugin:
-              cloudflarewarp:
-                disableDefault: false
+              cloudflare:
+                overwriteRequestHeader: true
 
 networks:
   traefik:
