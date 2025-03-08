@@ -163,10 +163,11 @@ configs:
 
           security-headers:
             headers:
-              referrerPolicy: "same-origin"
+              referrerPolicy: "no-referrer"
               stsSeconds: 31536000
               stsIncludeSubdomains: true
               frameDeny: true
+              contentTypeNosniff: true
               hostsProxyHeaders:
                 - "X-Forwarded-Host"
 
