@@ -22,10 +22,18 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.nextcloud.loadBalancer.server.port=443"
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=https"
+      # Local
       - "traefik.http.routers.nextcloud-local.entrypoints=http,https"
       - "traefik.http.routers.nextcloud-local.rule=Host(`nextcloud.fridge.local`)"
+      - "traefik.http.routers.nextcloud-local.middlewares=nextcloud_redirectregex@docker"
+      # CLoudflare
       - "traefik.http.routers.nextcloud.entrypoints=cloudflare"
       - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.bitbaker.fr`)"
+      - "traefik.http.routers.nextcloud.middlewares=nextcloud_redirectregex@docker"
+      # Midddlewares
+      - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.permanent=true"
+      - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.regex=https://(.*)/.well-known/(?:card|cal)dav"
+      - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.replacement=https://$${1}/remote.php/dav"
 
   mariadb:
     image: ghcr.io/linuxserver/mariadb:11.4.5
