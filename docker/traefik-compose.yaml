@@ -144,11 +144,13 @@ configs:
             chain:
               middlewares:
                 - local_ip_only
+                - forwarded-host-header
 
           cloudflare:
             chain:
               middlewares:
                 - cloudflare-proxy
+                - forwarded-host-header
 
           local_ip_only:
             ipAllowList:
@@ -156,6 +158,12 @@ configs:
                 - "192.168.1.0/24"
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
+
+          forwarded-host-header:
+            headers:
+              referrerPolicy: "same-origin"
+              hostsProxyHeaders:
+                - "X-Forwarded-Host"
 
           cloudflare-proxy:
             plugin:
