@@ -89,6 +89,7 @@ configs:
   static_config.yaml:
     content: |
       experimental:
+        enabled: true
         plugins:
           cloudflare:
             moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
