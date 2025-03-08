@@ -18,6 +18,11 @@ services:
       - traefik
       - default
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/status.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.nextcloud.loadBalancer.server.port=443"
