@@ -94,6 +94,10 @@ configs:
             moduleName: github.com/agence-gaya/traefik-plugin-cloudflare
             version: v1.0.0
 
+      tracing:
+        serviceName: traefik
+        otlp: {}
+
       tls:
         certificates:
           - certFile: /etc/traefik/certs/bitbaker.com.pem
@@ -134,9 +138,6 @@ configs:
             entrypoints:
               - http
               - https
-
-          tracing:
-            serviceName: traefik
 
         middlewares:
           local_network:
