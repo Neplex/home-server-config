@@ -145,14 +145,14 @@ configs:
             chain:
               middlewares:
                 - local_ip_only
-                - forwarded-host-header
+                - security-headers
 
           cloudflare:
             chain:
               middlewares:
                 - cloudflare-proxy
-                - ratelimit
-                - forwarded-host-header
+                - rate-limit
+                - security-headers
 
           local_ip_only:
             ipAllowList:
@@ -161,9 +161,12 @@ configs:
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
 
-          forwarded-host-header:
+          security-headers:
             headers:
               referrerPolicy: "same-origin"
+              stsSeconds: 31536000
+              stsIncludeSubdomains: true
+              frameDeny: true
               hostsProxyHeaders:
                 - "X-Forwarded-Host"
 
@@ -172,7 +175,7 @@ configs:
               cloudflare:
                 overwriteRequestHeader: true
 
-          ratelimit:
+          rate-limit:
             rateLimit:
               average: 10
               burst: 50
