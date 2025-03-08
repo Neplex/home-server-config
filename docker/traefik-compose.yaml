@@ -147,7 +147,7 @@ configs:
           cloudflare:
             chain:
               middlewares:
-                - cloudflare
+                - cloudflare-proxy
 
           local_ip_only:
             ipAllowList:
@@ -156,7 +156,7 @@ configs:
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
 
-          cloudflare:
+          cloudflare-proxy:
             plugin:
               cloudflare:
                 overwriteRequestHeader: true
