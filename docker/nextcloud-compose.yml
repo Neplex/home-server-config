@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: ghcr.io/linuxserver/nextcloud:31.0.0
+    image: ghcr.io/linuxserver/nextcloud:31.0.2
     container_name: nextcloud
     environment:
       - PUID=103
