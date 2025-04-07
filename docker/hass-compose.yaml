@@ -17,6 +17,8 @@ services:
       - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
       - "traefik.http.routers.homeassistant-local.entrypoints=http,https"
       - "traefik.http.routers.homeassistant-local.rule=Host(`hass.fridge.local`)"
+      - "traefik.http.routers.homeassistant.entrypoints=cloudflare"
+      - "traefik.http.routers.homeassistant.rule=Host(`hass.bitbaker.fr`)"
 
 volumes:
   config:
