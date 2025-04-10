@@ -157,6 +157,7 @@ configs:
           local_ip_only:
             ipAllowList:
               sourceRange:
+                - "192.168.27.64/27"
                 - "192.168.1.0/24"
                 - "127.0.0.1/32"
                 - "172.0.0.0/8"
