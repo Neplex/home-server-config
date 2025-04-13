@@ -1,0 +1,10 @@
+services:
+  mdns-repeater:
+    image: jdelker/mdns-repeater:latest
+    network_mode: "host"
+    privileged: true
+    environment:
+      INTERFACES: "${INTERFACES}"
+      DOCKER_NETWORKS: "${DOCKER_NETWORKS}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
