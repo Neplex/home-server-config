@@ -10,6 +10,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - config:/config
     networks:
+      - matter
       - traefik
     restart: unless-stopped
     labels:
@@ -45,6 +46,7 @@ services:
       - matter-hub-data:/data
     networks:
       - matter
+      - traefik
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -58,6 +60,7 @@ volumes:
   matter-hub-data:
 
 networks:
+  matter:
   traefik:
     name: traefik
     external: true
