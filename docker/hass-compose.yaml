@@ -44,6 +44,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - matter-hub-data:/data
+    ports:
+      - 5540:5540
     networks:
       - matter
       - traefik
