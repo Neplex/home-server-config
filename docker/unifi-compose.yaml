@@ -35,7 +35,7 @@ services:
       # - "traefik.http.routers.unifi-guest-portal-local.rule=Host(`unifi-guest.fridge.local`)"
 
   db:
-    image: mongo:8.0.6-noble
+    image: mongo:8.0.8-noble
     container_name: unifi-db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_USERNAME}
