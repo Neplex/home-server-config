@@ -60,7 +60,7 @@ services:
   readarr:
     <<: *config
     container_name: readarr
-    image: ghcr.io/linuxserver/readarr:0.4.15-develop
+    image: ghcr.io/linuxserver/readarr:0.4.16-develop
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
