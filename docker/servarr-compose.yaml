@@ -91,7 +91,7 @@ services:
   prowlarr:
     <<: *config
     container_name: prowlarr
-    image: ghcr.io/linuxserver/prowlarr:1.35.1
+    image: ghcr.io/linuxserver/prowlarr:1.36.3
     volumes:
       - prowlarr_config:/config
     labels:
