@@ -1,0 +1,29 @@
+services:
+  librespeed:
+    image: docker.io/anujdatar/cups:25.05.01
+    container_name: cups
+    environment:
+      - CUPSADMIN=admin
+      - CUPSPASSWORD=${PASSWORD}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - config:/etc/cups
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.cups.loadBalancer.server.port=631"
+      - "traefik.http.routers.cups-local.entrypoints=http,https"
+      - "traefik.http.routers.cups-local.rule=Host(`cups.fridge.local`)"
+
+volumes:
+  config:
+
+networks:
+  traefik:
+    name: traefik
+    external: true
