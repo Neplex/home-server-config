@@ -46,7 +46,7 @@ services:
     image: ghcr.io/linuxserver/mariadb:11.4.5
     #command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     command:
-      - --log-bin-trust-function-creators=1
+      - --log_bin_trust_function_creators=true
     environment:
       - PUID=103
       - PGID=996
