@@ -46,16 +46,7 @@ services:
     image: ghcr.io/linuxserver/mariadb:11.4.5
     #command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     command:
-      - --max-allowed-packet=64M
-      - --wait-timeout=3600
-      - --interactive-timeout=3600
-      - --innodb-buffer-pool-size=1G
-      - --innodb-buffer-pool-instances=1
-      - --innodb-log-buffer-size=32M
-      - --innodb-log-file-size=256M
-      - --innodb-flush-log-at-trx-commit=2
-      - --innodb-max-dirty-pages-pct=90
-      - --log_bin_trust_function_creators=true
+      - --log-bin-trust-function-creators=1
     environment:
       - PUID=103
       - PGID=996
