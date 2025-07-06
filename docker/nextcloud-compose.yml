@@ -58,6 +58,15 @@ services:
       - default
     restart: unless-stopped
 
+  clamav:
+    image: docker.io/clamav/clamav:1.4.3
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - default
+    restart: unless-stopped
+
 volumes:
   config:
   data:
