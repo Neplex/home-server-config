@@ -12,7 +12,7 @@ services:
     volumes:
       - "config:/etc/pterodactyl/"
     working_dir: /etc/pterodactyl
-    command: ["wings", "configure", "--panel-url", "${PANEL_URL}", "--token", "${TOKEN}", "--node", "${NODE}"]
+    command: ["wings", "configure", "--panel-url", "$PANEL_URL", "--token", "$TOKEN", "--node", "$NODE"]
     restart: no
 
   wings:
@@ -28,7 +28,6 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "config:/etc/pterodactyl/"
       - "data:/var/lib/pterodactyl/volumes"
-    command: ["wings"]
     restart: unless-stopped
     networks:
       - traefik
