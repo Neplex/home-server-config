@@ -1,122 +1,70 @@
 version: '3.8'
 
 services:
-  database:
-    image: library/mysql:8.4
-    restart: always
-    networks:
-      - local
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - "/srv/pool/docker/pterodactyl/database:/var/lib/mysql"
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb:11.4.5
     environment:
-      MYSQL_DATABASE: "panel"
-      MYSQL_USER: "pterodactyl"
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      - PUID=103
+      - PGID=996
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME:-nextcloud}
+      - MYSQL_USER=${DB_USER:-nextcloud}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - data:/config
+    networks:
+      - default
+    restart: unless-stopped
 
   cache:
     image: redis:alpine
-    restart: always
     networks:
-      - local
+      - default
+    restart: unless-stopped
 
   panel:
     image: ghcr.io/pterodactyl/panel:v1.11.11
-    restart: always
     environment:
-      PUID: 1000
-      PGID: 992
-      APP_KEY : ${APP_KEY}
-      APP_ENV: "production"
-      APP_URL: "http:/pterodactyl.fridge"
-      APP_ENVIRONMENT_ONLY: "false"
-      APP_SERVICE_AUTHOR: "admin@bitbaker.fr"
-      TRUSTED_PROXIES: "*"
-      PTERODACTYL_TELEMETRY_ENABLED: "false"
-      DB_HOST: "database"
-      DB_PORT: "3306 "
-      DB_USERNAME: "pterodactyl"
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: "panel"
-      CACHE_DRIVER: "redis"
-      SESSION_DRIVER: "redis"
-      QUEUE_DRIVER: "redis"
-      REDIS_HOST: "cache"
-      MAIL_FROM: "noreply@bitbaker.fr"
-      MAIL_DRIVER: "smtp"
-      MAIL_HOST: "mail"
-      MAIL_PORT: "1025"
-      MAIL_USERNAME: ""
-      MAIL_PASSWORD: ""
-      MAIL_ENCRYPTION: "true"
-    networks:
-      - local
-      - traefik
+      - PUID=103
+      - PGID=996
+      - APP_KEY=${APP_KEY}
+      - APP_ENV=production
+      - APP_URL=https://pterodactyl.bitbaker.fr
+      - APP_ENVIRONMENT_ONLY=false
+      - APP_SERVICE_AUTHOR=admin@bitbaker.fr
+      - TRUSTED_PROXIES=*
+      - PTERODACTYL_TELEMETRY_ENABLED=false
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=${DB_USER:-nextcloud}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_NAME:-nextcloud}
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_DRIVER=redis
+      - REDIS_HOST=cache
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "/srv/pool/docker/pterodactyl/panel/conf/certs:/etc/letsencrypt"
-      - "/srv/pool/docker/pterodactyl/panel/conf/nginx:/etc/nginx/http.d"
-      - "/srv/pool/docker/pterodactyl/panel/conf:/etc/pterodactyl"
-      - "/srv/pool/docker/pterodactyl/panel/logs/:/app/storage/logs"
-      - "/srv/pool/docker/pterodactyl/panel/logs/:/var/log/panel/logs"
+      - "config:/etc/pterodactyl"
+    networks:
+      - default
+      - traefik
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
       - "traefik.http.services.pterodactyl.loadBalancer.server.port=80"
       - "traefik.http.routers.pterodactyl-local.entrypoints=http,https"
-      - "traefik.http.routers.pterodactyl-local.rule=Host(`pterodactyl.fridge`)"
+      - "traefik.http.routers.pterodactyl-local.rule=Host(`pterodactyl.fridge.local`)"
       - "traefik.http.routers.pterodactyl.entrypoints=cloudflare"
       - "traefik.http.routers.pterodactyl.rule=Host(`pterodactyl.bitbaker.fr`)"
-  
-  wings:
-    image: ghcr.io/pterodactyl/wings:v1.11.13
-    restart: always
-    stdin_open: true
-    tty: true
-    networks:
-      - traefik
-      - wings0
-    ports:
-      - "2022:2022"
-    expose:
-      - "2022"
-    environment:
-      WINGS_UID: 1000
-      WINGS_GID: 992
-      WINGS_USERNAME: pterodactyl
-    volumes:
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-      - "/srv/pool/docker/pterodactyl/wings/conf:/etc/pterodactyl"
-      - "/srv/pool/docker/pterodactyl/wings/logs:/var/log/pterodactyl"
-      - "/srv/game_servers/:/srv/game_servers/"
-      - "/tmp/pterodactyl:/tmp/pterodactyl"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=80"
-      - "traefik.http.routers.pterodactyl-wing-local.entrypoints=http,https"
-      - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
+
+volumes:
+  config:
+  data:
 
 networks:
+  default:
   traefik:
     name: traefik
     external: true
-  
-  local:
-    external: false
-  
-  wings0:
-    name: wings0
-    driver: bridge
-    ipam:
-      config:
-        - subnet: "172.101.0.0/16"
-    driver_opts:
-      com.docker.network.bridge.name: wings0
