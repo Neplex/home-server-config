@@ -1,51 +1,47 @@
 version: '3.8'
 
 services:
+  setup:
+    image: ghcr.io/pterodactyl/wings:v1.11.13
+    environment:
+      - WINGS_UID=103
+      - WINGS_GID=996
+      - PANEL_URL=${PANEL_URL}
+      - TOKEN=${TOKEN}
+      - NODE=${NODE}
+    volumes:
+      - "config:/etc/pterodactyl/"
+    working_dir: /etc/pterodactyl
+    command: ["wings", "configure", "--panel-url", "${PANEL_URL}", "--token", "${TOKEN}", "--node", "${NODE}"]
+    restart: no
+
   wings:
     image: ghcr.io/pterodactyl/wings:v1.11.13
-    restart: always
-    networks:
-      - traefik
-      - wings0
-    ports:
-      - "2022:2022"
-      - "7001:7001"
-      - "7002:7002"
-      - "7003:7003"
-      - "7004:7004"
-      - "7005:7005"
-    tty: true
+    depends_on:
+      - setup
     environment:
-      TZ: "UTC"
-      WINGS_UID: 1000
-      WINGS_GID: 992
-      WINGS_USERNAME: pterodactyl
+      - WINGS_UID=103
+      - WINGS_GID=996
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-      - "/tmp/pterodactyl/:/tmp/pterodactyl/"
-      - "/etc/ssl/certs:/etc/ssl/certs:ro"
-      - "/srv/pool/docker/pterodactyl/wings/etc/:/etc/pterodactyl/"
-      - "/srv/pool/docker/pterodactyl/wings/logs:/var/log/pterodactyl/"
-      - "/srv/game_servers/:/srv/game_servers/"
+      - "config:/etc/pterodactyl/"
+      - "data:/var/lib/pterodactyl/volumes"
+    command: ["wings"]
+    restart: unless-stopped
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=443"
+      - "traefik.http.services.pterodactyl-wing.loadBalancer.server.port=80"
       - "traefik.http.routers.pterodactyl-wing-local.entrypoints=http,https"
-      - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge`)"
+      - "traefik.http.routers.pterodactyl-wing-local.rule=Host(`pterodactyl-wing.fridge.local`)"
+
+volumes:
+  config:
+  data:
 
 networks:
   traefik:
-    name: traefik
     external: true
-  
-  wings0:
-    name: wings0
-    driver: bridge
-    ipam:
-      config:
-        - subnet: "10.2.0.0/16"
-    driver_opts:
-      com.docker.network.bridge.name: wings0
