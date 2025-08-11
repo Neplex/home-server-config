@@ -7,8 +7,8 @@ services:
       - PUID=103
       - PGID=996
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME:-nextcloud}
-      - MYSQL_USER=${DB_USER:-nextcloud}
+      - MYSQL_DATABASE=${DB_NAME:-pterodactyl}
+      - MYSQL_USER=${DB_USER:-pterodactyl}
       - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
       - data:/config
@@ -36,13 +36,14 @@ services:
       - PTERODACTYL_TELEMETRY_ENABLED=false
       - DB_HOST=mariadb
       - DB_PORT=3306
-      - DB_USERNAME=${DB_USER:-nextcloud}
+      - DB_USERNAME=${DB_USER:-pterodactyl}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_NAME:-nextcloud}
+      - DB_DATABASE=${DB_NAME:-pterodactyl}
       - CACHE_DRIVER=redis
       - SESSION_DRIVER=redis
       - QUEUE_DRIVER=redis
       - REDIS_HOST=cache
+
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
