@@ -27,7 +27,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "config:/etc/pterodactyl/"
-      - "data:/var/lib/pterodactyl/volumes"
+      - "${LOCAL_VOLUME_STORAGE:-/srv/pterodactyl/volumes}:/var/lib/pterodactyl/volumes"
     restart: unless-stopped
     networks:
       - traefik
@@ -39,7 +39,6 @@ services:
 
 volumes:
   config:
-  data:
 
 networks:
   traefik:
