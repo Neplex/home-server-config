@@ -26,8 +26,9 @@ services:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "config:/etc/pterodactyl/"
       - "/var/lib/pterodactyl:/var/lib/pterodactyl"
+      - "/tmp/pterodactyl:/tmp/pterodactyl"
+      - "config:/etc/pterodactyl/"
     restart: unless-stopped
     networks:
       - traefik
