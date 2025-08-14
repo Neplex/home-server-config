@@ -4,7 +4,7 @@ services:
   mariadb:
     image: ghcr.io/linuxserver/mariadb:11.4.5
     environment:
-      - PUID=103
+      - PUID=999
       - PGID=996
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME:-pterodactyl}
@@ -25,7 +25,7 @@ services:
   panel:
     image: ghcr.io/pterodactyl/panel:v1.11.11
     environment:
-      - PUID=103
+      - PUID=999
       - PGID=996
       - APP_KEY=${APP_KEY}
       - APP_ENV=production
