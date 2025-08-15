@@ -1,6 +1,6 @@
 services:
   plex:
-    image: ghcr.io/linuxserver/plex:1.41.8
+    image: ghcr.io/linuxserver/plex:1.42.1
     container_name: plex
     environment:
       - PUID=103
