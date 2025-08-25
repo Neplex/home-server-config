@@ -103,7 +103,7 @@ services:
   flaresolverr:
     <<: *config
     container_name: solverr
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.25
+    image: ghcr.io/flaresolverr/flaresolverr:v3.4.0
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.solverr.entrypoints=http,https"
