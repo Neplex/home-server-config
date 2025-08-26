@@ -43,7 +43,7 @@ services:
       - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.replacement=https://$${1}/remote.php/dav"
 
   mariadb:
-    image: ghcr.io/linuxserver/mariadb:11.4.5
+    image: ghcr.io/linuxserver/mariadb:11.4.8
     #command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     environment:
       - PUID=103
