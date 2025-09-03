@@ -28,7 +28,7 @@ services:
   radarr:
     <<: *config
     container_name: radarr
-    image: ghcr.io/linuxserver/radarr:5.26.2
+    image: ghcr.io/linuxserver/radarr:5.27.5
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
