@@ -147,16 +147,17 @@ configs:
               - http
               - https
 
-          typewriter-ws:
-            rule: "Host(`typewriter.bitbaker.fr`) && HeadersRegexp(`Upgrade`, `(?i)websocket`)"
-            service: typewriter-ws
-            priority: 100
-            entrypoints:
-              - cloudflare
-
           typewriter-panel:
             rule: "Host(`typewriter.bitbaker.fr`)"
             service: typewriter-panel
+            priority: 50
+            entrypoints:
+              - cloudflare
+
+          typewriter-ws:
+            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`socket.io/`)"
+            service: typewriter-ws
+            priority: 100
             entrypoints:
               - cloudflare
 
@@ -174,7 +175,7 @@ configs:
           typewriter-ws:
             loadBalancer:
               servers:
-                - url: "http://192.168.1.1:7101"
+                - url: "https://192.168.1.1:7101"
 
         middlewares:
           local_network:
