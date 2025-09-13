@@ -141,14 +141,14 @@ configs:
               - https
 
           typewriter-panel:
-            rule: "Host(`typewriter.bitbaker.fr`)"
+            rule: "Host(`typewriter.bitbaker.fr`) && !PathPrefix(`/socket.io`)"
             service: typewriter-panel
             priority: 50
             entrypoints:
               - cloudflare
 
           typewriter-ws:
-            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`/socket.io/`)"
+            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`/socket.io`)"
             service: typewriter-ws
             priority: 100
             entrypoints:
