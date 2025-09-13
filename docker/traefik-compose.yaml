@@ -140,13 +140,6 @@ configs:
               - http
               - https
 
-          plan:
-            rule: "Host(`stats.arcadia.fridge.local`)"
-            service: player-analytics
-            entrypoints:
-              - http
-              - https
-
           typewriter-panel:
             rule: "Host(`typewriter.bitbaker.fr`)"
             service: typewriter-panel
@@ -161,12 +154,14 @@ configs:
             entrypoints:
               - cloudflare
 
-        services:
           player-analytics:
-            loadBalancer:
-              servers:
-                - url: "http://192.168.1.1:7103"
+            rule: "Host(`stats.arcadia.fridge.local`)"
+            service: player-analytics
+            entrypoints:
+              - http
+              - https
 
+        services:
           typewriter-panel:
             loadBalancer:
               servers:
@@ -175,7 +170,12 @@ configs:
           typewriter-ws:
             loadBalancer:
               servers:
-                - url: "https://192.168.1.1:7101"
+                - url: "http://192.168.1.1:7101"
+
+          player-analytics:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7103"
 
         middlewares:
           local_network:
