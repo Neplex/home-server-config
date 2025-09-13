@@ -140,6 +140,44 @@ configs:
               - http
               - https
 
+          plan:
+            rule: "Host(`stats.arcadia.fridge.local`)"
+            service: player-analytics
+            entrypoints:
+              - http
+              - https
+
+          typewriter-ws:
+            rule: "Host(`typewriter.arcadia.fridge.local`) && HeadersRegexp(`Upgrade`, `(?i)websocket`)"
+            service: typewriter-ws
+            priority: 100
+            entrypoints:
+              - http
+              - https
+
+          typewriter-panel:
+            rule: "Host(`typewriter.arcadia.fridge.local`)"
+            service: typewriter-panel
+            entrypoints:
+              - http
+              - https
+
+        services:
+          plan:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7103"
+
+          typewriter-panel:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7100"
+
+          typewriter-ws:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7101"
+
         middlewares:
           local_network:
             chain:
