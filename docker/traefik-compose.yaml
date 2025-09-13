@@ -148,19 +148,17 @@ configs:
               - https
 
           typewriter-ws:
-            rule: "Host(`typewriter.arcadia.fridge.local`) && HeadersRegexp(`Upgrade`, `(?i)websocket`)"
+            rule: "Host(`typewriter.bitbaker.fr`) && HeadersRegexp(`Upgrade`, `(?i)websocket`)"
             service: typewriter-ws
             priority: 100
             entrypoints:
-              - http
-              - https
+              - cloudflare
 
           typewriter-panel:
-            rule: "Host(`typewriter.arcadia.fridge.local`)"
+            rule: "Host(`typewriter.bitbaker.fr`)"
             service: typewriter-panel
             entrypoints:
-              - http
-              - https
+              - cloudflare
 
         services:
           plan:
