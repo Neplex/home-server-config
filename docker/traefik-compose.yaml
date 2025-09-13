@@ -155,7 +155,7 @@ configs:
               - cloudflare
 
           typewriter-ws:
-            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`socket.io/`)"
+            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`/socket.io/`)"
             service: typewriter-ws
             priority: 100
             entrypoints:
