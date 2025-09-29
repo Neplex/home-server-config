@@ -1,0 +1,56 @@
+services:
+  bluemap:
+    image: divadsn/bluemap-nginx:5.2
+    environment:
+      - MYSQL_HOST=${DB_HOST}
+      - MYSQL_PORT=${DB_PORT:-3306}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    configs:
+      - source: settings.json
+        target: /var/www/html/settings.json
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.bluemap.loadBalancer.server.port=80"
+      - "traefik.http.routers.bluemap-local.entrypoints=http,https"
+      - "traefik.http.routers.bluemap-local.rule=Host(`map.arcadia.fridge.local`)"
+
+configs:
+  settings.json:
+    content: |
+      {
+        "version": "5.11",
+        "useCookies": true,
+        "defaultToFlatView": false,
+        "resolutionDefault": 1.0,
+        "minZoomDistance": 5,
+        "maxZoomDistance": 100000,
+        "hiresSliderMax": 500,
+        "hiresSliderDefault": 100,
+        "hiresSliderMin": 0,
+        "lowresSliderMax": 7000,
+        "lowresSliderDefault": 2000,
+        "lowresSliderMin": 500,
+        "mapDataRoot": "maps",
+        "liveDataRoot": "maps",
+        "maps": [
+            "smp_world",
+            "smp_world_nether",
+            "smp_world_the_end",
+            "creative_plotworld"
+        ],
+        "scripts": [],
+        "styles": []
+      }
+
+networks:
+  traefik:
+    name: traefik
+    external: true
