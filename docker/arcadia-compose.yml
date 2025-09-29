@@ -21,9 +21,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.services.bluemap.loadBalancer.server.port=80"
       - "traefik.http.routers.bluemap-local.entrypoints=http,https"
-      - "traefik.http.routers.bluemap-local.rule=Host(`maps.arcadia.fridge.local`)"
+      - "traefik.http.routers.bluemap-local.rule=Host(`bluemap.fridge.local`)"
       - "traefik.http.routers.bluemap.entrypoints=cloudflare"
-      - "traefik.http.routers.bluemap.rule=Host(`maps.arcadia.bitbaker.fr`)"
+      - "traefik.http.routers.bluemap.rule=Host(`bluemap.bitbaker.fr`)"
 
 configs:
   settings.json:
