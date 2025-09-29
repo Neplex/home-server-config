@@ -1,8 +1,8 @@
 services:
   bluemap:
-    image: ghcr.io/gudchalmers/bluemap-nginx:5.5
+    image: ghcr.io/neplex/bluemap-nginx:5.11
     environment:
-      - BLUEMAP_VERSION=5.11
+      - DB_DRIVER=mariadb
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT:-3306}
       - DB_USER=${DB_USER}
