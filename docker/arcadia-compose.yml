@@ -1,12 +1,13 @@
 services:
   bluemap:
-    image: divadsn/bluemap-nginx:3.21
+    image: divadsn/bluemap-nginx:5.2
     environment:
-      - MYSQL_HOST=${DB_HOST}
-      - MYSQL_PORT=${DB_PORT:-3306}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_DATABASE}
+      - BLUEMAP_VERSION=5.11
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_DATABASE}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
