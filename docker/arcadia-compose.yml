@@ -1,6 +1,6 @@
 services:
   bluemap:
-    image: divadsn/bluemap-nginx:5.2
+    image: ghcr.io/gudchalmers/bluemap-nginx:5.5
     environment:
       - BLUEMAP_VERSION=5.11
       - DB_HOST=${DB_HOST}
