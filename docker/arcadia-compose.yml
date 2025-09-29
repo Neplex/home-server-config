@@ -1,6 +1,6 @@
 services:
   bluemap:
-    image: divadsn/bluemap-nginx:5.2
+    image: divadsn/bluemap-nginx:3.21
     environment:
       - MYSQL_HOST=${DB_HOST}
       - MYSQL_PORT=${DB_PORT:-3306}
