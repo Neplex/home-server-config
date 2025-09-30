@@ -154,12 +154,18 @@ configs:
             entrypoints:
               - cloudflare
 
-          player-analytics:
-            rule: "Host(`stats.arcadia.fridge.local`)"
+          player-analytics-local:
+            rule: "Host(`plan.fridge.local`)"
             service: player-analytics
             entrypoints:
               - http
               - https
+
+          player-analytics:
+            rule: "Host(`plan.bitbaker.fr`)"
+            service: player-analytics
+            entrypoints:
+              - cloudflare
 
         services:
           typewriter-panel:
