@@ -1,6 +1,6 @@
 services:
   librespeed:
-    image: docker.io/anujdatar/cups:25.09.01
+    image: docker.io/anujdatar/cups:25.10.01
     container_name: cups
     environment:
       - CUPSADMIN=admin
