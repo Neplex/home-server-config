@@ -140,45 +140,56 @@ configs:
               - http
               - https
 
-          typewriter-panel:
+          arcadia-typewriter-panel:
             rule: "Host(`typewriter.bitbaker.fr`) && !PathPrefix(`/socket.io`)"
-            service: typewriter-panel
+            service: arcadia-typewriter-panel
             priority: 50
             entrypoints:
               - cloudflare
 
-          typewriter-ws:
+          arcadia-typewriter-ws:
             rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`/socket.io`)"
-            service: typewriter-ws
+            service: arcadia-typewriter-ws
             priority: 100
             entrypoints:
               - cloudflare
 
-          player-analytics-local:
+          arcadia-auth:
+            rule: "Host(`arcadia-auth.bitbaker.fr`)"
+            service: arcadia-auth
+            entrypoints:
+              - cloudflare
+
+          arcadia-player-analytics-local:
             rule: "Host(`plan.fridge.local`)"
-            service: player-analytics
+            service: arcadia-player-analytics
             entrypoints:
               - http
               - https
 
-          player-analytics:
+          arcadia-player-analytics:
             rule: "Host(`plan.bitbaker.fr`)"
-            service: player-analytics
+            service: arcadia-player-analytics
             entrypoints:
               - cloudflare
 
         services:
-          typewriter-panel:
+          arcadia-typewriter-panel:
             loadBalancer:
               servers:
                 - url: "http://192.168.1.1:7100"
 
-          typewriter-ws:
+          arcadia-typewriter-ws:
             loadBalancer:
               servers:
                 - url: "http://192.168.1.1:7101"
 
-          player-analytics:
+          arcadia-auth:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7102"
+
+          arcadia-player-analytics:
             loadBalancer:
               servers:
                 - url: "http://192.168.1.1:7103"
