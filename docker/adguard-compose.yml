@@ -15,6 +15,8 @@ services:
       - "traefik.http.services.adguard.loadBalancer.server.port=3000"
       - "traefik.http.routers.adguard-local.entrypoints=http,https"
       - "traefik.http.routers.adguard-local.rule=Host(`adguard.fridge.local`)"
+      - "traefik.http.routers.adguard.entrypoints=cloudflare"
+      - "traefik.http.routers.adguard.rule=Host(`dns.bitbaker.fr`) && PathPrefix(`/dns-query`)"
 
 volumes:
   config:
@@ -23,3 +25,4 @@ networks:
   traefik:
     name: traefik
     external: true
+
