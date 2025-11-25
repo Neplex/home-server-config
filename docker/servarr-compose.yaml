@@ -12,7 +12,7 @@ services:
   sonarr:
     <<: *config
     container_name: sonarr
-    image: ghcr.io/linuxserver/sonarr:4.0.15
+    image: ghcr.io/linuxserver/sonarr:4.0.16
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
