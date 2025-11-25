@@ -44,7 +44,7 @@ services:
   lidarr:
     <<: *config
     container_name: lidarr
-    image: ghcr.io/linuxserver/lidarr:2.14.5
+    image: ghcr.io/linuxserver/lidarr:8.1.2135
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
