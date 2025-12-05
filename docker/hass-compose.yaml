@@ -1,6 +1,6 @@
 services:
   homeassistant:
-    image: ghcr.io/linuxserver/homeassistant:2025.11.3
+    image: ghcr.io/linuxserver/homeassistant:2025.12.0
     container_name: homeassistant
     environment:
       - PUID=103
