@@ -5,8 +5,8 @@
   ],
   "docker-compose": {
     "enabled": true,
-    "fileMatch": [
-      ".*-compose[^/]*\.ya?ml"
+    "managerFilePatterns": [
+      "/.*-compose[^/]*.ya?ml/"
     ]
   }
 }
