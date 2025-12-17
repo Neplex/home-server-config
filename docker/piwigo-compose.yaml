@@ -9,7 +9,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - config:/config
-      - freezer_vault:/gallery:ro
+      - freezer_vault:/gallery/galleries:ro
     devices:
       - /dev/dri:/dev/dri
     networks:
