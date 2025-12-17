@@ -13,6 +13,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     networks:
+      - default
       - traefik
     restart: unless-stopped
     labels:
@@ -43,6 +44,7 @@ volumes:
     external: true
 
 networks:
+  default:
   traefik:
     name: traefik
     external: true
