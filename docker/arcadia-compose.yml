@@ -1,6 +1,6 @@
 services:
   bluemap:
-    image: ghcr.io/neplex/bluemap-nginx:5.11
+    image: ghcr.io/neplex/bluemap-nginx:5.15
     environment:
 #      - DB_DRIVER=mariadb
       - DB_HOST=${DB_HOST}
