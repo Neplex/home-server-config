@@ -76,7 +76,7 @@ services:
   bazarr:
     <<: *config
     container_name: bazarr
-    image: ghcr.io/linuxserver/bazarr:1.5.3
+    image: ghcr.io/linuxserver/bazarr:1.5.4
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
