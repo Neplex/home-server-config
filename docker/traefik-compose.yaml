@@ -21,7 +21,12 @@ services:
         target: /etc/traefik/traefik.yaml
       - source: static_config.yaml
         target: /etc/traefik/static_config.yaml
-    restart: unless-stopped
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: unless-stopped
 
 volumes:
   cloudflare_certs:
