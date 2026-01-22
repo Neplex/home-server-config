@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   setup:
-    image: ghcr.io/pterodactyl/wings:v1.12.1
+    image: ghcr.io/pterodactyl/wings:v1.12.0
     environment:
       - WINGS_UID=999
       - WINGS_GID=996
@@ -16,7 +16,7 @@ services:
     restart: no
 
   wings:
-    image: ghcr.io/pterodactyl/wings:v1.12.1
+    image: ghcr.io/pterodactyl/wings:v1.12.0
     depends_on:
       - setup
     environment:
