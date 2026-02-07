@@ -151,14 +151,14 @@ configs:
               - https
 
           arcadia-typewriter-panel:
-            rule: "Host(`typewriter.bitbaker.fr`) && !PathPrefix(`/socket.io`)"
+            rule: "Host(`typewriter.arcadia-mc.eu`) && !PathPrefix(`/socket.io`)"
             service: arcadia-typewriter-panel
             priority: 50
             entrypoints:
               - cloudflare
 
           arcadia-typewriter-ws:
-            rule: "Host(`typewriter.bitbaker.fr`) && PathPrefix(`/socket.io`)"
+            rule: "Host(`typewriter.arcadia-mc.eu`) && PathPrefix(`/socket.io`)"
             service: arcadia-typewriter-ws
             priority: 100
             entrypoints:
