@@ -70,6 +70,9 @@ configs:
                 - main: "bitbaker.fr"
                   sans:
                     - "*.bitbaker.fr"
+                - main: "arcadia-mc.eu"
+                  sans:
+                    - "*.arcadia-mc.eu"
 
       serversTransport:
         insecureSkipVerify: true
@@ -106,8 +109,10 @@ configs:
     content: |
       tls:
         certificates:
-          - certFile: /etc/traefik/certs/bitbaker.com.pem
-            keyFile: /etc/traefik/certs/bitbaker.com.key
+          - certFile: /etc/traefik/certs/bitbaker.fr.pem
+            keyFile: /etc/traefik/certs/bitbaker.fr.key
+          - certFile: /etc/traefik/certs/arcadia-mc.eu.pem
+            keyFile: /etc/traefik/certs/arcadia-mc.eu.key
 
         options:
           cloudflare:
