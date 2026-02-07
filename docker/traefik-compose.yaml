@@ -165,7 +165,7 @@ configs:
               - cloudflare
 
           arcadia-auth:
-            rule: "Host(`arcadia-auth.bitbaker.fr`)"
+            rule: "Host(`auth.arcadia-mc.eu`)"
             service: arcadia-auth
             entrypoints:
               - cloudflare
@@ -178,7 +178,7 @@ configs:
               - https
 
           arcadia-player-analytics:
-            rule: "Host(`plan.bitbaker.fr`)"
+            rule: "Host(`plan.arcadia-mc.eu`)"
             service: arcadia-player-analytics
             entrypoints:
               - cloudflare
