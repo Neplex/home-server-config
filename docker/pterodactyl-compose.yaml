@@ -27,6 +27,8 @@ services:
     environment:
       - PUID=999
       - PGID=996
+      - HASHIDS_SALT=${HASHIDS_SALT}
+      - HASHIDS_LENGTH=8
       - APP_KEY=${APP_KEY}
       - APP_ENV=production
       - APP_URL=https://pterodactyl.bitbaker.fr
