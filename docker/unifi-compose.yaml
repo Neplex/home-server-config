@@ -1,6 +1,6 @@
 services:
   controller:
-    image: ghcr.io/linuxserver/unifi-network-application:10.0.162
+    image: ghcr.io/linuxserver/unifi-network-application:10.1.85
     container_name: unifi-controller
     environment:
       - PUID=103
