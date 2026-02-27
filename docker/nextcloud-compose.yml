@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: ghcr.io/linuxserver/nextcloud:31.0.6
+    image: ghcr.io/linuxserver/nextcloud:33.0.0
     container_name: nextcloud
     environment:
       - PUID=103
@@ -43,7 +43,7 @@ services:
       - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.replacement=https://$${1}/remote.php/dav"
 
   mariadb:
-    image: ghcr.io/linuxserver/mariadb:11.4.5
+    image: ghcr.io/linuxserver/mariadb:11.4.8
     command: mysqld --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     environment:
       - PUID=103
@@ -64,7 +64,7 @@ services:
       retries: 3
 
   clamav:
-    image: docker.io/clamav/clamav:1.4.3
+    image: docker.io/clamav/clamav:1.5.1
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro

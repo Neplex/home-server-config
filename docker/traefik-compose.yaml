@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.4.3
+    image: traefik:v3.6.8
     container_name: "traefik"
     #user: "103:996"
     cap_add:
@@ -21,7 +21,12 @@ services:
         target: /etc/traefik/traefik.yaml
       - source: static_config.yaml
         target: /etc/traefik/static_config.yaml
-    restart: unless-stopped
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: unless-stopped
 
 volumes:
   cloudflare_certs:
@@ -65,6 +70,9 @@ configs:
                 - main: "bitbaker.fr"
                   sans:
                     - "*.bitbaker.fr"
+                - main: "arcadia-mc.eu"
+                  sans:
+                    - "*.arcadia-mc.eu"
 
       serversTransport:
         insecureSkipVerify: true
@@ -101,8 +109,10 @@ configs:
     content: |
       tls:
         certificates:
-          - certFile: /etc/traefik/certs/bitbaker.com.pem
-            keyFile: /etc/traefik/certs/bitbaker.com.key
+          - certFile: /etc/traefik/certs/bitbaker.fr.pem
+            keyFile: /etc/traefik/certs/bitbaker.fr.key
+          - certFile: /etc/traefik/certs/arcadia-mc.eu.pem
+            keyFile: /etc/traefik/certs/arcadia-mc.eu.key
 
         options:
           cloudflare:
@@ -139,6 +149,60 @@ configs:
             entrypoints:
               - http
               - https
+
+          arcadia-typewriter-panel:
+            rule: "Host(`typewriter.arcadia-mc.eu`) && !PathPrefix(`/socket.io`)"
+            service: arcadia-typewriter-panel
+            priority: 50
+            entrypoints:
+              - cloudflare
+
+          arcadia-typewriter-ws:
+            rule: "Host(`typewriter.arcadia-mc.eu`) && PathPrefix(`/socket.io`)"
+            service: arcadia-typewriter-ws
+            priority: 100
+            entrypoints:
+              - cloudflare
+
+          arcadia-auth:
+            rule: "Host(`auth.arcadia-mc.eu`)"
+            service: arcadia-auth
+            entrypoints:
+              - cloudflare
+
+          arcadia-player-analytics-local:
+            rule: "Host(`plan.fridge.local`)"
+            service: arcadia-player-analytics
+            entrypoints:
+              - http
+              - https
+
+          arcadia-player-analytics:
+            rule: "Host(`plan.arcadia-mc.eu`)"
+            service: arcadia-player-analytics
+            entrypoints:
+              - cloudflare
+
+        services:
+          arcadia-typewriter-panel:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7100"
+
+          arcadia-typewriter-ws:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7101"
+
+          arcadia-auth:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7102"
+
+          arcadia-player-analytics:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7103"
 
         middlewares:
           local_network:

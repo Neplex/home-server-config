@@ -1,0 +1,51 @@
+services:
+  piwigo:
+    image: ghcr.io/linuxserver/piwigo:16.1.0
+    container_name: piwigo
+    environment:
+      - PUID=103
+      - PGID=996
+      - PHP_MEMORY_LIMIT=1G
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - config:/config
+      - freezer_vault:/gallery/galleries:ro
+    devices:
+      - /dev/dri:/dev/dri
+    networks:
+      - default
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.piwigo.loadBalancer.server.port=80"
+      - "traefik.http.routers.piwigo-local.entrypoints=http,https"
+      - "traefik.http.routers.piwigo-local.rule=Host(`piwigo.fridge.local`)"
+
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb:11.4.8
+    environment:
+      - PUID=103
+      - PGID=996
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME:-piwigo}
+      - MYSQL_USER=${DB_USER:-piwigo}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - data:/config
+    networks:
+      - default
+    restart: unless-stopped
+
+volumes:
+  config:
+  data:
+  freezer_vault:
+    external: true
+
+networks:
+  default:
+  traefik:
+    name: traefik
+    external: true

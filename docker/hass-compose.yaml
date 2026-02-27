@@ -1,6 +1,6 @@
 services:
   homeassistant:
-    image: ghcr.io/linuxserver/homeassistant:2025.7.1
+    image: ghcr.io/linuxserver/homeassistant:2026.2.3
     container_name: homeassistant
     environment:
       - PUID=103
@@ -22,7 +22,7 @@ services:
       - "traefik.http.routers.homeassistant.rule=Host(`hass.bitbaker.fr`)"
 
   matter-server:
-    image: ghcr.io/home-assistant-libs/python-matter-server:8.0.0
+    image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
     container_name: ha-matter-server
     volumes:
       - /etc/timezone:/etc/timezone:ro

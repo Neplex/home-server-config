@@ -12,7 +12,7 @@ services:
   sonarr:
     <<: *config
     container_name: sonarr
-    image: ghcr.io/linuxserver/sonarr:4.0.15
+    image: ghcr.io/linuxserver/sonarr:4.0.16
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -28,7 +28,7 @@ services:
   radarr:
     <<: *config
     container_name: radarr
-    image: ghcr.io/linuxserver/radarr:5.26.2
+    image: ghcr.io/linuxserver/radarr:6.0.4
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -44,7 +44,7 @@ services:
   lidarr:
     <<: *config
     container_name: lidarr
-    image: ghcr.io/linuxserver/lidarr:2.12.4
+    image: ghcr.io/linuxserver/lidarr:2.14.5
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -76,7 +76,7 @@ services:
   bazarr:
     <<: *config
     container_name: bazarr
-    image: ghcr.io/linuxserver/bazarr:1.5.2
+    image: ghcr.io/linuxserver/bazarr:1.5.6
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -91,7 +91,7 @@ services:
   prowlarr:
     <<: *config
     container_name: prowlarr
-    image: ghcr.io/linuxserver/prowlarr:1.37.0
+    image: ghcr.io/linuxserver/prowlarr:2.3.0
     volumes:
       - prowlarr_config:/config
     labels:
@@ -103,7 +103,7 @@ services:
   flaresolverr:
     <<: *config
     container_name: solverr
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.25
+    image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.solverr.entrypoints=http,https"
@@ -113,7 +113,7 @@ services:
   overseerr:
     <<: *config
     container_name: overseerr
-    image: ghcr.io/linuxserver/overseerr:1.34.0
+    image: ghcr.io/linuxserver/overseerr:1.35.0
     volumes:
       - overseerr_config:/config
     labels:
