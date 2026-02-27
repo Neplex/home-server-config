@@ -30,6 +30,7 @@ services:
       - "/var/log/pterodactyl:/var/log/pterodactyl"
       - "/tmp/pterodactyl:/tmp/pterodactyl"
       - "config:/etc/pterodactyl/"
+      - "freezer_backups:/var/lib/pterodactyl/backups"
     restart: unless-stopped
     networks:
       - traefik
@@ -43,6 +44,8 @@ services:
 
 volumes:
   config:
+  freezer_backups:
+    external: true
 
 networks:
   traefik:
