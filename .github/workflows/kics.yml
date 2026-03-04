@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run KICS Scan with SARIF result
-        uses: checkmarx/kics-github-action@v2.1.19
+        uses: checkmarx/kics-github-action@v2.1.20
         with:
           ignore_on_exit: results
           output_formats: 'sarif'
