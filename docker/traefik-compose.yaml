@@ -183,6 +183,12 @@ configs:
             entrypoints:
               - cloudflare
 
+          arcadia-votifier:
+            rule: "Host(`votifier.arcadia-mc.eu`)"
+            service: arcadia-votifier
+            entrypoints:
+              - cloudflare
+
         services:
           arcadia-typewriter-panel:
             loadBalancer:
@@ -203,6 +209,11 @@ configs:
             loadBalancer:
               servers:
                 - url: "http://192.168.1.1:7103"
+
+          arcadia-votifier:
+            loadBalancer:
+              servers:
+                - url: "http://192.168.1.1:7105"
 
         middlewares:
           local_network:
