@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.bluemap.rule=Host(`maps.arcadia-mc.eu`)"
 
   status:
-    image: louislam/uptime-kuma:latest
+    image: louislam/uptime-kuma:2.2.0
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
