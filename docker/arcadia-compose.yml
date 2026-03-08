@@ -25,29 +25,6 @@ services:
       - "traefik.http.routers.bluemap.entrypoints=cloudflare"
       - "traefik.http.routers.bluemap.rule=Host(`maps.arcadia-mc.eu`)"
 
-  status:
-    image: louislam/uptime-kuma:2.2.0
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - uptime-kuma-data:/app/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001"]
-      interval: 30s
-      retries: 3
-      start_period: 10s
-      timeout: 5s
-    networks:
-      - traefik
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.arcadia-status.loadBalancer.server.port=3001"
-      - "traefik.http.routers.arcadia-status-local.entrypoints=http,https"
-      - "traefik.http.routers.arcadia-status-local.rule=Host(`arcadia-status.fridge.local`)"
-      - "traefik.http.routers.arcadia-status.entrypoints=cloudflare"
-      - "traefik.http.routers.arcadia-status.rule=Host(`status.arcadia-mc.eu`)"
-
 configs:
   settings.json:
     content: |
@@ -75,9 +52,6 @@ configs:
         "scripts": [],
         "styles": []
       }
-
-volumes:
-  uptime-kuma-data:
 
 networks:
   traefik:
