@@ -1,6 +1,6 @@
 services:
   piwigo:
-    image: ghcr.io/linuxserver/piwigo:16.1.0
+    image: ghcr.io/linuxserver/piwigo:16.3.0
     container_name: piwigo
     environment:
       - PUID=103
