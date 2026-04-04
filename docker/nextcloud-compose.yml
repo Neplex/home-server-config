@@ -70,6 +70,7 @@ services:
 volumes:
   config:
   data:
+  appdata:
   freezer_vault:
     external: true
 
