@@ -13,6 +13,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - config:/config
+      - appdata:/data/test
       - freezer_vault:/data
     devices:
       - /dev/dri:/dev/dri
