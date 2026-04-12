@@ -1,6 +1,6 @@
 services:
   searxng:
-    image: searxng/searxng:2024.11.17-10d3af84b
+    image: ghcr.io/searxng/searxng:2026.4.11-9e08a6771
     container_name: searxng
     environment:
       - SEARXNG_BASE_URL=https://search.bitbaker.fr/
