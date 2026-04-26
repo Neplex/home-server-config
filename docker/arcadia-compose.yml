@@ -25,11 +25,37 @@ services:
       - "traefik.http.routers.bluemap.entrypoints=cloudflare"
       - "traefik.http.routers.bluemap.rule=Host(`maps.arcadia-mc.eu`)"
 
+  bluemap-onelife:
+    image: ghcr.io/arcadia-mc/docker-bluemap:5.15
+    environment:
+#      - DB_DRIVER=mariadb
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_DATABASE_ONELIFE}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    configs:
+      - source: one-life-settings.json
+        target: /var/www/html/settings.json
+    networks:
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.bluemap.loadBalancer.server.port=80"
+      - "traefik.http.routers.bluemap-local.entrypoints=http,https"
+      - "traefik.http.routers.bluemap-local.rule=Host(`onelifemap.fridge.local`)"
+      - "traefik.http.routers.bluemap.entrypoints=cloudflare"
+      - "traefik.http.routers.bluemap.rule=Host(`onelifemap.arcadia-mc.eu`)"
+
 configs:
   settings.json:
     content: |
       {
-        "version": "5.11",
+        "version": "5.15",
         "useCookies": true,
         "defaultToFlatView": false,
         "resolutionDefault": 1.0,
@@ -48,6 +74,32 @@ configs:
             "smp_world_nether",
             "smp_world_the_end",
             "creative_plotworld"
+        ],
+        "scripts": [],
+        "styles": []
+      }
+
+  one-life-settings.json:
+    content: |
+      {
+        "version": "5.15",
+        "useCookies": true,
+        "defaultToFlatView": false,
+        "resolutionDefault": 1.0,
+        "minZoomDistance": 5,
+        "maxZoomDistance": 100000,
+        "hiresSliderMax": 500,
+        "hiresSliderDefault": 100,
+        "hiresSliderMin": 0,
+        "lowresSliderMax": 7000,
+        "lowresSliderDefault": 2000,
+        "lowresSliderMin": 500,
+        "mapDataRoot": "maps",
+        "liveDataRoot": "maps",
+        "maps": [
+            "world",
+            "world_nether",
+            "world_the_end"
         ],
         "scripts": [],
         "styles": []
