@@ -55,7 +55,7 @@ configs:
   settings.json:
     content: |
       {
-        "version": "5.15",
+        "version": "5.11",
         "useCookies": true,
         "defaultToFlatView": false,
         "resolutionDefault": 1.0,
@@ -82,7 +82,7 @@ configs:
   one-life-settings.json:
     content: |
       {
-        "version": "5.15",
+        "version": "5.11",
         "useCookies": true,
         "defaultToFlatView": false,
         "resolutionDefault": 1.0,
