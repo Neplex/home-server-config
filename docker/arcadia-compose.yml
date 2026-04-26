@@ -45,17 +45,17 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.bluemap.loadBalancer.server.port=80"
-      - "traefik.http.routers.bluemap-local.entrypoints=http,https"
-      - "traefik.http.routers.bluemap-local.rule=Host(`onelifemap.fridge.local`)"
-      - "traefik.http.routers.bluemap.entrypoints=cloudflare"
-      - "traefik.http.routers.bluemap.rule=Host(`onelifemap.arcadia-mc.eu`)"
+      - "traefik.http.services.onelife-bluemap.loadBalancer.server.port=80"
+      - "traefik.http.routers.onelife-bluemap-local.entrypoints=http,https"
+      - "traefik.http.routers.onelife-bluemap-local.rule=Host(`onelifemap.fridge.local`)"
+      - "traefik.http.routers.onelife-bluemap.entrypoints=cloudflare"
+      - "traefik.http.routers.onelife-bluemap.rule=Host(`onelifemap.arcadia-mc.eu`)"
 
 configs:
   settings.json:
     content: |
       {
-        "version": "5.11",
+        "version": "5.15",
         "useCookies": true,
         "defaultToFlatView": false,
         "resolutionDefault": 1.0,
@@ -82,7 +82,7 @@ configs:
   one-life-settings.json:
     content: |
       {
-        "version": "5.11",
+        "version": "5.15",
         "useCookies": true,
         "defaultToFlatView": false,
         "resolutionDefault": 1.0,
