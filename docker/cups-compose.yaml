@@ -1,5 +1,5 @@
 services:
-  librespeed:
+  cups:
     image: docker.io/anujdatar/cups:26.05.01
     container_name: cups
     environment:
