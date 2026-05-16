@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
 
   clamav:
-    image: docker.io/clamav/clamav_base:1.5.2
+    image: docker.io/clamav/clamav:1.5.2_base
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
