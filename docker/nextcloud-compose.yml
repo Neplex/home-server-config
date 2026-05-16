@@ -60,10 +60,11 @@ services:
     restart: unless-stopped
 
   clamav:
-    image: docker.io/clamav/clamav:1.5.2
+    image: docker.io/clamav/clamav_base:1.5.2
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - clamav_data:/var/lib/clamav
     networks:
       - default
     restart: unless-stopped
@@ -72,6 +73,7 @@ volumes:
   config:
   data:
   appdata:
+  clamav_data:
   freezer_vault:
     external: true
 
