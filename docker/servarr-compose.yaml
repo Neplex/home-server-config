@@ -110,6 +110,16 @@ services:
       - "traefik.http.services.solverr.loadBalancer.server.port=8191"
       - "traefik.http.routers.solverr.rule=Host(`solverr.fridge.local`)"
 
+  cleanuparr:
+    <<: *config
+    container_name: cleanuparr
+    image: ghcr.io/cleanuparr/cleanuparr:v2.9.13
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cleanuparr.entrypoints=http,https"
+      - "traefik.http.services.cleanuparr.loadBalancer.server.port=11011"
+      - "traefik.http.routers.cleanuparr.rule=Host(`cleanuparr.fridge.local`)"
+
   overseerr:
     <<: *config
     container_name: overseerr
