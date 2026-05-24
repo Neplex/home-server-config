@@ -113,7 +113,7 @@ services:
   cleanuparr:
     <<: *config
     container_name: cleanuparr
-    image: ghcr.io/cleanuparr/cleanuparr:v2.9.13
+    image: ghcr.io/cleanuparr/cleanuparr:2.9.13
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cleanuparr.entrypoints=http,https"
