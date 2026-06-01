@@ -12,6 +12,8 @@ services:
     networks:
 #      - matter
       - traefik
+    extra_hosts:
+      - fridge.local:host-gateway
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
