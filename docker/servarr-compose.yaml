@@ -6,6 +6,8 @@ x-servarr: &config
       - PGID=996
     networks:
       - traefik
+    extra_hosts:
+      - fridge.local:host-gateway
     restart: unless-stopped
 
 services:
