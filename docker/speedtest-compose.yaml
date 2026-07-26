@@ -1,6 +1,6 @@
 services:
   librespeed:
-    image: ghcr.io/linuxserver/librespeed:6.1.0
+    image: ghcr.io/linuxserver/librespeed:6.2.0
     container_name: librespeed
     environment:
       - PUID=103
