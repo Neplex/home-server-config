@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   panel:
-    image: ghcr.io/pterodactyl/panel:v1.12.2
+    image: ghcr.io/pterodactyl/panel:v1.15.1
     environment:
       - PUID=999
       - PGID=996
