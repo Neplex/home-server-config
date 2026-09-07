@@ -44,7 +44,7 @@ services:
       - "traefik.http.middlewares.nextcloud_redirectregex.redirectregex.replacement=https://$${1}/remote.php/dav"
 
   mariadb:
-    image: ghcr.io/linuxserver/mariadb:11.4.8
+    image: ghcr.io/linuxserver/mariadb:11.8.8
     environment:
       - PUID=103
       - PGID=996
