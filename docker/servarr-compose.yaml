@@ -116,6 +116,8 @@ services:
     <<: *config
     container_name: cleanuparr
     image: ghcr.io/cleanuparr/cleanuparr:2.10.12
+    volumes:
+      - cleanuparr_config:/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cleanuparr.entrypoints=http,https"
@@ -143,6 +145,7 @@ volumes:
   readarr_config:
   bazarr_config:
   prowlarr_config:
+  cleanuparr_config:
   overseerr_config:
   freezer_media:
     external: true
