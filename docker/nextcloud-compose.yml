@@ -52,7 +52,7 @@ services:
       - MYSQL_DATABASE=${DB_NAME:-nextcloud}
       - MYSQL_USER=${DB_USER:-nextcloud}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - CLI_OPTS=--transaction-isolation=READ-COMMITTED --binlog-format=ROW --log_bin_trust_function_creators=true
+      - CLI_OPTS=--transaction-isolation=READ-COMMITTED --binlog-format=ROW --log_bin_trust_function_creators=true --innodb-log-file-size=268435456
     volumes:
       - data:/config
     networks:
