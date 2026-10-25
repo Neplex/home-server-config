@@ -9,6 +9,8 @@ services:
       - MYSQL_DATABASE=${DB_NAME:-nextcloud}
       - MYSQL_USER=${DB_USER:-nextcloud}
       - MYSQL_PASSWORD=${DB_PASSWORD}
+      - DOCKER_MODS=linuxserver/mods:universal-package-install
+      - INSTALL_PACKAGES=libva|libva-intel-driver|intel-media-driver|mesa-va-gallium
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
