@@ -29,6 +29,7 @@ services:
       - "/var/lib/pterodactyl:/var/lib/pterodactyl"
       - "/var/log/pterodactyl:/var/log/pterodactyl"
       - "/tmp/pterodactyl:/tmp/pterodactyl"
+      - "/run/wings:/run/wings"
       - "config:/etc/pterodactyl/"
       - "freezer_backups:/var/lib/pterodactyl/backups"
     restart: unless-stopped
